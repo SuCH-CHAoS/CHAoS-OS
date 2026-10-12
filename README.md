@@ -38,7 +38,7 @@ Connect the GitHub repository in Cloudflare under **Workers & Pages** and use:
 - Framework preset: `Vite`
 - Build command: `npm run build`
 - Build output directory: `dist`
-- Root directory: `/`
+- Root directory: leave blank (repository root)
 
 Add these variables to the Cloudflare Pages production build environment:
 
