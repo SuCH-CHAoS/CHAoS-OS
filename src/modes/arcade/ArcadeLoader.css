@@ -1,0 +1,81 @@
+.arcade-loader-shell .arcade-exit-btn {
+  opacity: 0.78;
+  cursor: default;
+}
+
+.arcade-loader-screen {
+  align-items: center;
+  justify-content: center;
+  background: #000;
+}
+
+.arcade-loader-screen::before,
+.arcade-loader-screen::after {
+  opacity: 0;
+  animation: arcadeLoaderCrtOn 2.6s steps(10, end) forwards;
+}
+
+.arcade-loader-blackout {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  animation: arcadeLoaderPowerOn 2.4s steps(10, end) forwards;
+}
+
+.arcade-loader-boot,
+.arcade-loader-status {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(92%, 560px);
+  margin: 0;
+  text-align: center;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  text-shadow: 0 0 6px rgba(163, 255, 193, 0.36);
+  opacity: 0;
+}
+
+.arcade-loader-boot {
+  top: 44%;
+  color: #c9ffd9;
+  font-size: clamp(10px, 1.5vw, 14px);
+  animation: arcadeLoaderBootText 2.2s steps(8, end) forwards;
+}
+
+.arcade-loader-status {
+  top: 56%;
+  color: #ffe08a;
+  font-size: clamp(9px, 1.3vw, 12px);
+  animation: arcadeLoaderStatusText 2.8s steps(8, end) forwards;
+}
+
+@keyframes arcadeLoaderPowerOn {
+  0%, 40% { opacity: 1; }
+  65% { opacity: 0.55; }
+  100% { opacity: 0; }
+}
+
+@keyframes arcadeLoaderCrtOn {
+  0%, 42% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes arcadeLoaderBootText {
+  0%, 35% { opacity: 0; }
+  52%, 100% { opacity: 1; }
+}
+
+@keyframes arcadeLoaderStatusText {
+  0%, 58% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .arcade-loader-boot {
+    top: 42%;
+  }
+
+  .arcade-loader-status {
+    top: 58%;
+  }
+}

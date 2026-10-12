@@ -1,0 +1,881 @@
+{
+  "desktop": {
+    "icons": [
+      {
+        "id": "applications",
+        "label": "Applications",
+        "kind": "window",
+        "value": "applications-explorer",
+        "iconKey": "applications"
+      },
+      {
+        "id": "arcade",
+        "label": "Arcade",
+        "kind": "mode",
+        "value": "arcade",
+        "iconKey": "arcade"
+      },
+      {
+        "id": "shell",
+        "label": "Shell",
+        "kind": "window",
+        "value": "shell-terminal",
+        "iconKey": "shell"
+      },
+      {
+        "id": "about",
+        "label": "About Me",
+        "kind": "window",
+        "value": "about",
+        "iconKey": "about"
+      },
+      {
+        "id": "socials",
+        "label": "My Socials",
+        "kind": "window",
+        "value": "socials",
+        "iconKey": "socials"
+      }
+    ],
+    "idleLines": [
+      "Standing by.",
+      "Monitoring activity.",
+      "All systems nominal.",
+      "Awaiting input.",
+      "Processes stable.",
+      "No anomalies detected."
+    ],
+    "lateNightMessage": "You should probably sleep.",
+    "cvDownloadMessage": "That file matters.",
+    "billProbeMessages": [
+      "Nothing there.",
+      "Still nothing.",
+      "Okay... maybe there is something."
+    ],
+    "chaosRevealLines": [
+      "You're curious.",
+      "That's good.",
+      "This OS Was Never Meant to be Normal !"
+    ],
+    "securityTrayLines": [
+      "Relax. You're safe.",
+      "Still safe.",
+      "You don't trust me?",
+      "Paranoia detected."
+    ],
+    "systemStatusTitle": "SYSTEM STATUS",
+    "systemStatusRows": [
+      {
+        "label": "CPU LOAD",
+        "kind": "cpu",
+        "suffix": "%"
+      },
+      {
+        "label": "MEMORY",
+        "kind": "mem",
+        "suffix": "MB"
+      },
+      {
+        "label": "NET LINK",
+        "value": "ACTIVE"
+      },
+      {
+        "label": "THREAT",
+        "value": "LOW"
+      }
+    ],
+    "modeLabel": "MODE"
+  },
+  "about": {
+    "name": "Mohamed Ashraf",
+    "role": "Computer Science Student",
+    "location": "Cairo, Egypt",
+    "status": "Actively learning",
+    "cvPath": "/cv/Mohamed Ashraf.pdf",
+    "whoIAm": "I am a computer science student who enjoys understanding how systems work under the hood. I'm especially interested in building applications that feel intentional, structured, and reliable rather than rushed or improvised.\n\nI like working across different layers of technology from application logic and user interfaces to networking concepts and security fundamentals and I'm constantly experimenting with new tools and ideas through hands-on projects.",
+    "whatIDo": [
+      "Build and test applications and systems",
+      "Create arcade and interactive experiences using Unity",
+      "Explore security and networking concepts through labs",
+      "Learn by experimenting, breaking, and rebuilding systems"
+    ],
+    "focusAreas": [
+      "Application Engineering & Problem Solving",
+      "Arcade & Interactive Systems",
+      "Shell & Networking",
+      "System Thinking & Debugging"
+    ],
+    "currentState": [
+      {
+        "label": "Mode",
+        "value": "Desktop"
+      },
+      {
+        "label": "Education",
+        "value": "Computer Science"
+      },
+      {
+        "label": "Availability",
+        "value": "Open to internships & projects"
+      },
+      {
+        "label": "Mindset",
+        "value": "Learning by building"
+      }
+    ]
+  },
+  "socials": {
+    "title": "MY SOCIALS",
+    "status": "Status: Online",
+    "links": [
+      {
+        "id": "github",
+        "label": "GitHub",
+        "href": "https://github.com/SuCH-CHAoS",
+        "iconKey": "github"
+      },
+      {
+        "id": "linkedin",
+        "label": "LinkedIn",
+        "href": "https://www.linkedin.com/in/mo-eldemerdash/",
+        "iconKey": "linkedin"
+      },
+      {
+        "id": "email",
+        "label": "Email",
+        "href": "mailto:mo.eldemerdash.personal@gmail.com",
+        "iconKey": "email"
+      }
+    ]
+  },
+  "applications": {
+    "explorerRoot": "Desktop",
+    "folderIcon": "/icons/applications/folder.png",
+    "categories": [
+      {
+        "id": "iot",
+        "label": "IoT",
+        "summary": "Device telemetry, control dashboards, and edge-node monitoring workflows.",
+        "projects": [
+          {
+            "id": "sensor-mesh-console",
+            "name": "Sensor Mesh Console",
+            "windowTitle": "Sensor Mesh Console",
+            "description": "A monitoring surface for distributed sensor nodes with live packet health, alert thresholds, and room-by-room status tracking. The interface is built around quick incident reading instead of decorative charts.",
+            "technologies": [
+              "React",
+              "MQTT",
+              "Node.js",
+              "WebSocket telemetry"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS",
+            "githubLabel": "Open GitHub profile",
+            "repositoryNote": "The public repository for this IoT lab is not published yet, so this link points to the main GitHub profile.",
+            "screenshots": [
+              {
+                "id": "mesh-health",
+                "title": "Mesh health panel",
+                "caption": "Packet loss, temperature drift, and battery state in one operator view.",
+                "tone": "teal",
+                "layout": "dashboard"
+              }
+            ],
+            "hotlineOpen": "Opened IoT project: Sensor Mesh Console."
+          },
+          {
+            "id": "relay-stack-supervisor",
+            "name": "Relay Stack Supervisor",
+            "windowTitle": "Relay Stack Supervisor",
+            "description": "A desktop supervisor for smart relays and automation rules, focused on fast overrides, fault visibility, and simple device provisioning for local test deployments.",
+            "technologies": [
+              "React",
+              "Express",
+              "REST APIs",
+              "Device rule engine"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS",
+            "githubLabel": "Open GitHub profile",
+            "repositoryNote": "This control-room project is still staged locally, so the public GitHub profile is used as the current reference link.",
+            "screenshots": [
+              {
+                "id": "relay-ops",
+                "title": "Override console",
+                "caption": "Manual relay control with queue status and fallback rule summaries.",
+                "tone": "amber",
+                "layout": "control"
+              }
+            ],
+            "hotlineOpen": "Opened IoT project: Relay Stack Supervisor."
+          }
+        ]
+      },
+      {
+        "id": "desktop-applications",
+        "label": "Desktop Applications",
+        "summary": "Standalone tools designed for fast local workflows and practical utility.",
+        "projects": [
+          {
+            "id": "encryption-application",
+            "name": "Encryption Application",
+            "windowTitle": "Encryption Application",
+            "description": "A Python desktop utility for encrypting, decrypting, and analyzing text with classic ciphers. It combines a simple GUI with practical brute-force and file-handling flows so the tool stays useful beyond basic demos.",
+            "technologies": [
+              "Python",
+              "Tkinter",
+              "Caesar cipher",
+              "Vigenere cipher",
+              "Rail Fence cipher"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS/Encryption-Application",
+            "githubLabel": "Open repository",
+            "repositoryNote": "This is a published repository on the public GitHub account.",
+            "screenshots": [
+              {
+                "id": "cipher-workbench",
+                "title": "Cipher workbench",
+                "caption": "Text input, cipher selection, and output analysis in one compact tool window.",
+                "tone": "blue",
+                "layout": "editor"
+              }
+            ],
+            "hotlineOpen": "Opened desktop project: Encryption Application."
+          },
+          {
+            "id": "workflow-board",
+            "name": "Workflow Board",
+            "windowTitle": "Workflow Board",
+            "description": "A local planning board for issue slicing, release grouping, and lightweight sprint tracking. The design keeps drag-heavy complexity out and prioritizes clear task state over trendy productivity chrome.",
+            "technologies": [
+              "React",
+              "Local storage",
+              "Task grouping",
+              "State-driven UI"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS",
+            "githubLabel": "Open GitHub profile",
+            "repositoryNote": "The desktop board prototype is currently unpublished, so the profile link is used until the repo is pushed.",
+            "screenshots": [
+              {
+                "id": "task-columns",
+                "title": "Task lanes",
+                "caption": "Grouped milestones, issue buckets, and a release-ready queue.",
+                "tone": "green",
+                "layout": "kanban"
+              }
+            ],
+            "hotlineOpen": "Opened desktop project: Workflow Board."
+          }
+        ]
+      },
+      {
+        "id": "mobile-applications",
+        "label": "Mobile Applications",
+        "summary": "Touch-first builds with constrained surfaces, readable UI, and lightweight flows.",
+        "projects": [
+          {
+            "id": "ecorun-mobile-build",
+            "name": "EcoRun Mobile Build",
+            "windowTitle": "EcoRun Mobile Build",
+            "description": "The mobile-focused build of EcoRun, tuned for touch interaction, readable HUD states, and smooth performance on lower-end devices. The focus was on making mobile play sessions feel stable instead of over-designed.",
+            "technologies": [
+              "Unity",
+              "C#",
+              "Mobile UI tuning",
+              "Performance optimization"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS/EcoRun",
+            "githubLabel": "Open repository",
+            "repositoryNote": "This project is published publicly and reused here as the mobile build entry.",
+            "screenshots": [
+              {
+                "id": "mobile-run",
+                "title": "Touch HUD",
+                "caption": "Large touch zones, clear hazard reads, and mobile-friendly pacing.",
+                "tone": "rose",
+                "layout": "mobile"
+              }
+            ],
+            "hotlineOpen": "Opened mobile project: EcoRun Mobile Build."
+          },
+          {
+            "id": "pocket-sync-notes",
+            "name": "Pocket Sync Notes",
+            "windowTitle": "Pocket Sync Notes",
+            "description": "A note-capture concept centered on fast mobile entry, offline drafts, and clean sync states. The interface avoids clutter and keeps the most important actions reachable with one hand.",
+            "technologies": [
+              "React Native concepts",
+              "Offline-first sync",
+              "Mobile form design"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS",
+            "githubLabel": "Open GitHub profile",
+            "repositoryNote": "This mobile concept has not been published yet, so the public profile is the current reference link.",
+            "screenshots": [
+              {
+                "id": "note-stack",
+                "title": "Quick capture view",
+                "caption": "Recent notes, sync status, and one-tap draft creation.",
+                "tone": "violet",
+                "layout": "mobile"
+              }
+            ],
+            "hotlineOpen": "Opened mobile project: Pocket Sync Notes."
+          }
+        ]
+      },
+      {
+        "id": "multi-tools",
+        "label": "Multi-Tools",
+        "summary": "Hybrid systems that combine multiple interfaces or utilities in one product surface.",
+        "projects": [
+          {
+            "id": "chaos-os",
+            "name": "CHAoS OS",
+            "windowTitle": "CHAoS OS",
+            "description": "A retro operating-system-style website that combines desktop windows, fullscreen modes, hotline reactions, and themed interfaces in one cohesive shell. The project is structured as a modular front-end system instead of a single landing page.",
+            "technologies": [
+              "React",
+              "Vite",
+              "Component architecture",
+              "Retro UI systems"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS/CHAoS-OS",
+            "githubLabel": "Open repository",
+            "repositoryNote": "This repository contains the website shell you are currently editing.",
+            "screenshots": [
+              {
+                "id": "desktop-shell",
+                "title": "Desktop shell",
+                "caption": "Window management, taskbar state, and mode switching inside one interface.",
+                "tone": "navy",
+                "layout": "desktop"
+              }
+            ],
+            "hotlineOpen": "Opened multi-tool project: CHAoS OS."
+          },
+          {
+            "id": "command-shelf",
+            "name": "Command Shelf",
+            "windowTitle": "Command Shelf",
+            "description": "A compact utility shelf for quick text transforms, clipboard actions, and repeatable developer shortcuts. The goal is to reduce context switching for small tasks that happen dozens of times a day.",
+            "technologies": [
+              "React",
+              "Utility actions",
+              "Keyboard shortcuts",
+              "Clipboard APIs"
+            ],
+            "githubUrl": "https://github.com/SuCH-CHAoS",
+            "githubLabel": "Open GitHub profile",
+            "repositoryNote": "The public repo for this utility shelf is still pending, so the profile link is used for now.",
+            "screenshots": [
+              {
+                "id": "command-drawer",
+                "title": "Utility tray",
+                "caption": "Pinned shortcuts, text actions, and quick output panels.",
+                "tone": "slate",
+                "layout": "utility"
+              }
+            ],
+            "hotlineOpen": "Opened multi-tool project: Command Shelf."
+          }
+        ]
+      }
+    ]
+  },
+  "shell": {
+    "initialTerminalLines": [
+      "Microsoft Windows [Version CHAoS 2.1]",
+      "(c) CHAoS Systems. All rights reserved.",
+      "",
+      "Shell link established.",
+      "Welcome to the CHAoS Shell.",
+      "This console indexes the darker side of the website:",
+      "security labs, network builds, and a few buried signals.",
+      "",
+      "Type PROJECTS to inspect shell work.",
+      "Type NETWORKING to inspect network builds.",
+      "Type HELP when you want the command map."
+    ],
+    "helpLines": [
+      "Available Commands:",
+      "  HELP        - Show commands",
+      "  STATUS      - Terminal state",
+      "  PROJECTS    - Open the shell lab index",
+      "  NETWORKING  - Open the network build index",
+      "  EGGS        - Show hidden protocol hints",
+      "  BACK        - Return from selection list",
+      "  CLEAR       - Clear output",
+      "  EXIT        - Close terminal"
+    ],
+    "statusLines": [
+      "STATUS : ONLINE",
+      "WINDOW : ACTIVE",
+      "MODE   : CHAoS SHELL",
+      "THEME  : CMD"
+    ],
+    "channelCommand": "r#y##",
+    "channelLines": [
+      "Private channel acknowledged.",
+      "O.S.P handshake: stable.",
+      "O.G.L state: online."
+    ],
+    "channelPhoneMsg": "Signal received. HELLO L#V# - I see you.",
+    "collections": {
+      "projects": {
+        "title": "SHELL PROJECTS",
+        "prompt": "Type a project number to open. Type BACK to close.",
+        "windowPrefix": "shell-project"
+      },
+      "networking": {
+        "title": "NETWORKING PROJECTS",
+        "prompt": "Type a networking project number to open. Type BACK to close.",
+        "windowPrefix": "network-project"
+      }
+    },
+    "pixelArtMaps": {
+      "kali": [
+        "................",
+        "....22222.......",
+        "...22...22......",
+        "..22..1..22.....",
+        "..2...1...2.....",
+        "..22..1..22.....",
+        "...22...22......",
+        "....22222..11...",
+        ".........11.1...",
+        "..11...11..1....",
+        "..22...22.......",
+        "................"
+      ],
+      "redteam": [
+        "................",
+        "..222222222222..",
+        "..2..........2..",
+        "..2.11....11.2..",
+        "..2..11..11..2..",
+        "..2...1221...2..",
+        "..2..11..11..2..",
+        "..2.11....11.2..",
+        "..222222222222..",
+        ".......22.......",
+        "......2222......",
+        ".......22......."
+      ],
+      "c2": [
+        "................",
+        ".......22.......",
+        "......2..2......",
+        ".....2.22.2.....",
+        ".......22.......",
+        "......2222......",
+        ".....22..22.....",
+        "....22.22.22....",
+        "..11...22...11..",
+        "..22.11..11.22..",
+        "..11........11..",
+        "................"
+      ],
+      "topology": [
+        "................",
+        "..2222..2222....",
+        "..2..2..2..2....",
+        "..2222..2222....",
+        "....1....1......",
+        "..111111111111..",
+        "....1....1......",
+        "..2222..2222....",
+        "..2..2..2..2....",
+        "..2222..2222....",
+        "....1....1......",
+        "................"
+      ],
+      "router": [
+        "................",
+        "....2......2....",
+        "...2........2...",
+        "................",
+        "..222222222222..",
+        "..2.11.22.11.2..",
+        "..2..........2..",
+        "..222222222222..",
+        "....1......1....",
+        "..22........22..",
+        ".22..........22.",
+        "................"
+      ],
+      "datacenter": [
+        "................",
+        "..111111111111..",
+        "..1.22.22.22.1..",
+        "..1..........1..",
+        "..1.22.22.22.1..",
+        "..1..........1..",
+        "..1..222222..1..",
+        "..1..2.22.2..1..",
+        "..1..2.22.2..1..",
+        "..1...2222...1..",
+        "..111111111111..",
+        "................"
+      ]
+    },
+    "projects": [
+      {
+        "id": 1,
+        "kind": "projects",
+        "title": "Internal Network Pentest Lab",
+        "windowTitle": "Pentest Lab",
+        "stack": "Kali Linux, Nmap, Metasploit, Burp Suite",
+        "intro": "Built a controlled internal lab to simulate a real client engagement from recon to reporting. Started with host discovery and service enumeration, then chained misconfigurations into privilege escalation paths.",
+        "details": "The project focused on repeatable methodology, evidence collection, and a clean findings narrative for both technical and non-technical audiences.",
+        "highlights": [
+          "Automated scoped scans with Nmap profiles for fast baseline mapping.",
+          "Validated exploitable paths in Metasploit and documented proof-of-impact.",
+          "Mapped every finding to remediation actions with risk priority."
+        ],
+        "art": "kali",
+        "hotlineOpen": "Opened shell project 1: Internal Network Pentest Lab."
+      },
+      {
+        "id": 2,
+        "kind": "projects",
+        "title": "Red Team Initial Access Simulation",
+        "windowTitle": "Red Team Sim",
+        "stack": "Kali Linux, GoPhish, C2 Framework, AD Lab",
+        "intro": "Ran a red-team style simulation against a segmented Active Directory lab to test detection and response posture. The operation was designed to emulate realistic operator behavior instead of noisy one-shot exploits.",
+        "details": "Emphasis was on stealth, lateral movement discipline, and documenting defender blind spots that matter in real incidents.",
+        "highlights": [
+          "Executed phishing-to-access chain with controlled payload execution.",
+          "Practiced low-noise privilege escalation and host pivoting sequences.",
+          "Delivered timeline-based report with blue-team detection gaps."
+        ],
+        "art": "redteam",
+        "hotlineOpen": "Opened shell project 2: Red Team Initial Access Simulation."
+      },
+      {
+        "id": 3,
+        "kind": "projects",
+        "title": "Post-Exploitation & C2 Tradecraft",
+        "windowTitle": "C2 Tradecraft",
+        "stack": "Kali Linux, Mimikatz Lab, C2 Profiles, Wireshark",
+        "intro": "Developed a post-exploitation playbook in a legal sandbox to evaluate how long operations can stay undetected after foothold. Focused on credential access simulation, beacon shaping, and OPSEC checks.",
+        "details": "Captured packet-level traces and host telemetry to compare offensive actions with defensive visibility at each stage.",
+        "highlights": [
+          "Tested encrypted beacon profiles against network monitoring controls.",
+          "Compared credential access techniques and their forensic footprint.",
+          "Produced hardening recommendations tied to ATT&CK techniques."
+        ],
+        "art": "c2",
+        "hotlineOpen": "Opened shell project 3: Post-Exploitation & C2 Tradecraft."
+      }
+    ],
+    "networkingProjects": [
+      {
+        "id": 1,
+        "kind": "networking",
+        "title": "Campus Segmentation Blueprint",
+        "windowTitle": "Campus Blueprint",
+        "stack": "VLANs, Trunking, Inter-VLAN Routing, ACLs",
+        "intro": "Designed a segmented campus network model with isolated user, server, and management zones. The focus was reducing lateral movement and keeping broadcast domains controlled without hurting daily operations.",
+        "details": "Validation covered route flow, policy enforcement at segment boundaries, and failover behavior during link interruptions.",
+        "highlights": [
+          "Created VLAN and subnet plan aligned to department risk profiles.",
+          "Implemented ACL rules to enforce least-privilege east-west traffic.",
+          "Documented routing and security policy matrix for operations handoff."
+        ],
+        "art": "topology",
+        "hotlineOpen": "Opened networking project 1: Campus Segmentation Blueprint."
+      },
+      {
+        "id": 2,
+        "kind": "networking",
+        "title": "Branch-to-HQ Resilient Routing Lab",
+        "windowTitle": "Routing Lab",
+        "stack": "OSPF, Static Backup Routes, NAT, QoS",
+        "intro": "Built a branch simulation with primary and backup WAN paths to test route convergence and service continuity. Prioritized voice and operational traffic under congestion scenarios.",
+        "details": "The project compared dynamic routing recovery against static fallback behavior and measured impact during planned and unplanned outages.",
+        "highlights": [
+          "Tuned OSPF timers and tested reconvergence windows.",
+          "Implemented NAT and policy-based prioritization for critical apps.",
+          "Produced outage runbook with expected failover sequence."
+        ],
+        "art": "router",
+        "hotlineOpen": "Opened networking project 2: Branch-to-HQ Resilient Routing Lab."
+      },
+      {
+        "id": 3,
+        "kind": "networking",
+        "title": "Datacenter Access Layer Hardening",
+        "windowTitle": "Access Hardening",
+        "stack": "STP Guardrails, Port Security, DHCP Snooping, Logs",
+        "intro": "Hardened a datacenter-style access layer to reduce misconfiguration risk and suppress common layer-2 attack paths. Combined preventive controls with monitoring hooks for faster incident triage.",
+        "details": "Testing focused on rogue device behavior, loop prevention, and assurance that controls did not disrupt normal provisioning workflows.",
+        "highlights": [
+          "Applied BPDU protections and loop guard policies on edge links.",
+          "Enabled DHCP snooping and source validation on untrusted ports.",
+          "Mapped switch logs into an event checklist for responders."
+        ],
+        "art": "datacenter",
+        "hotlineOpen": "Opened networking project 3: Datacenter Access Layer Hardening."
+      }
+    ],
+    "terminalEasterEggs": {
+      "eggs": {
+        "lines": [
+          "EASTER EGG SIGNALS:",
+          "  WAKEUP      - movie protocol",
+          "  SAMURAI     - night-city protocol",
+          "  PANTHEON    - uplink protocol",
+          "  GHOST       - shell protocol",
+          "  RUNNER      - neon protocol",
+          "  GLITCH      - terminal distortion",
+          "  KONAMI      - legacy input artifact"
+        ],
+        "phoneMsg": "Hidden protocols indexed."
+      },
+      "wakeup": {
+        "lines": [
+          "MATRIX NODE DETECTED...",
+          "Operator channel stabilized.",
+          "Reality layer check: UNVERIFIED."
+        ],
+        "phoneMsg": "Follow the signal. Stay off the obvious path."
+      },
+      "samurai": {
+        "lines": [
+          "NIGHT CITY RELIC HANDSHAKE...",
+          "Chrome sync complete.",
+          "Edgerunner profile injected."
+        ],
+        "phoneMsg": "Stick some iron in your mouth and pull the trigger."
+      },
+      "pantheon": {
+        "lines": [
+          "UPLOAD THREAD OPENED...",
+          "Distributed minds responding.",
+          "Consciousness mesh integrity: PARTIAL."
+        ],
+        "phoneMsg": "If the network dreams, log everything."
+      },
+      "ghost": {
+        "lines": [
+          "SHELL INTERFACE MOUNTED...",
+          "Synthetic memory layers discovered.",
+          "Identity checksum: NON-DETERMINISTIC."
+        ],
+        "phoneMsg": "Question the shell, not just the signal."
+      },
+      "runner": {
+        "lines": [
+          "NEON GRID INITIALIZING...",
+          "Replicant heuristic scan in progress.",
+          "Empathy baseline unresolved."
+        ],
+        "phoneMsg": "Some targets look human until logs disagree."
+      },
+      "glitch": {
+        "lines": [
+          "### SIGNAL DRIFT ###",
+          "frame_01 :: desync",
+          "frame_02 :: mirror",
+          "frame_03 :: recover"
+        ],
+        "phoneMsg": "I heard that distortion too."
+      },
+      "konami": {
+        "lines": [
+          "LEGACY ARCADE INTERRUPT RECEIVED.",
+          "30 extra process-lives granted.",
+          "Difficulty remains impossible."
+        ],
+        "phoneMsg": "Old code never really dies."
+      }
+    },
+    "easterEggAliases": {
+      "eggs": "eggs",
+      "easter": "eggs",
+      "eastereggs": "eggs",
+      "wakeup": "wakeup",
+      "wakeupneo": "wakeup",
+      "thematrix": "wakeup",
+      "matrix": "wakeup",
+      "samurai": "samurai",
+      "cyberpunk": "samurai",
+      "cyberpunk2077": "samurai",
+      "pantheon": "pantheon",
+      "pantheonanime": "pantheon",
+      "ghost": "ghost",
+      "ghostintheshell": "ghost",
+      "runner": "runner",
+      "bladerunner": "runner",
+      "bladerunner2049": "runner",
+      "glitch": "glitch",
+      "anomaly": "glitch",
+      "konami": "konami"
+    }
+  },
+  "arcade": {
+    "marqueeKicker": "UNITY ARCADE \"SuCH CHAoS\"",
+    "title": "ARCADE MODE",
+    "zoneLabels": {
+      "arcade": "ARCADE",
+      "xr": "XR LAB"
+    },
+    "startupMessage": "Arcade online. Cabinet lanes and XR lab loaded.",
+    "zoneSwitchMessages": {
+      "arcade": "Arcade titles selected. Fast-loop builds in focus.",
+      "xr": "XR lab selected. AR/VR interaction builds in focus."
+    },
+    "zoneChatter": {
+      "arcade": [
+        "Arcade lane online. Fast-loop prototypes and replay systems loaded.",
+        "Arcade feed: gameplay-first iterations prioritized.",
+        "Cabinet telemetry stable. Scanning arcade cards for selection."
+      ],
+      "xr": [
+        "XR lab channel online. AR/VR interaction projects in focus.",
+        "XR feed: immersion, comfort, and interaction depth prioritized.",
+        "Spatial interaction stack loaded. Ready to inspect XR titles."
+      ]
+    },
+    "controlMessages": {
+      "previous": "Previous title loaded.",
+      "next": "Next title loaded.",
+      "random": "Random title locked.",
+      "exit": "Leaving Arcade mode. Returning to desktop."
+    },
+    "projects": [
+      {
+        "id": "ecorun",
+        "zone": "arcade",
+        "thumb": "runner",
+        "anim": "anim-runner",
+        "title": "EcoRun",
+        "type": "Endless Runner",
+        "engine": "Unity / C#",
+        "platforms": [
+          "Desktop",
+          "Mobile",
+          "Web"
+        ],
+        "objective": "EcoRun is an endless runner set in a polluted world where momentum and route awareness decide survival. The core fantasy is simple and urgent: collect clean air canisters, avoid hazardous branches, and maintain a rhythm that feels rewarding under pressure.",
+        "narrative": "I designed this project to feel immediately readable on any screen size while preserving challenge escalation over long sessions. The visual language and obstacle cadence were tuned to avoid fatigue and keep each run readable at speed.",
+        "technical": [
+          "Cross-platform input and UI adaptation for desktop, mobile, and web.",
+          "Collision, movement, and obstacle pacing tuned for endless-loop replayability.",
+          "Performance pass for stable gameplay on lower-spec targets."
+        ],
+        "hotline": [
+          "EcoRun loaded. Pace and timing are everything here.",
+          "Cross-platform build profile active: Desktop / Mobile / Web.",
+          "Obstacle cadence synced. Keep your line and avoid branch collisions.",
+          "Session note: this build prioritizes stable frame pacing on low-end devices."
+        ],
+        "hotlineHover": "EcoRun profile highlighted. Endless loop balancing in focus."
+      },
+      {
+        "id": "island-escape",
+        "zone": "arcade",
+        "thumb": "island",
+        "anim": "anim-island",
+        "title": "Island Escape",
+        "type": "3rd Person Adventure",
+        "engine": "Unity / C#",
+        "platforms": [
+          "Desktop"
+        ],
+        "objective": "Island Escape is a third-person progression game where resource judgment is the main mechanic: gather enough wood to construct a bridge and advance, while rejecting non-useful pickups that slow your route.",
+        "narrative": "The design intent was to combine exploration with deliberate decision-making. Instead of purely collecting everything in sight, the player is rewarded for filtering, planning, and moving with purpose through the environment.",
+        "technical": [
+          "Interactive environment logic for collectible validation and bridge progression.",
+          "Third-person camera and movement flow built around exploration clarity.",
+          "Obstacle penalty rules and level pacing for consistent challenge."
+        ],
+        "hotline": [
+          "Island Escape loaded. Resource discipline drives progression.",
+          "Bridge objective armed. Collect wood, ignore rocks.",
+          "Traversal route check: reward comes from clean decision-making, not random pickup.",
+          "Camera and movement tuned for exploration readability under pressure."
+        ],
+        "hotlineHover": "Island Escape selected. Resource filtering system ready."
+      },
+      {
+        "id": "renault-ar",
+        "zone": "xr",
+        "thumb": "car",
+        "anim": "anim-car",
+        "title": "Renault AR Experience",
+        "type": "AR Product Interaction",
+        "engine": "Unity / C#",
+        "platforms": [
+          "Mobile"
+        ],
+        "objective": "Renault AR Experience is a mobile-first augmented reality application where users scan a QR code to place a car model in real space and interact with functional vehicle components.",
+        "narrative": "The focus was practical interaction clarity and smooth onboarding. Every interaction was built to feel responsive for non-technical users while still demonstrating robust AR integration and 3D interaction depth.",
+        "technical": [
+          "QR-triggered AR session flow with model placement and interaction state handling.",
+          "Interactive car controls: doors, seats, lights, and color variations.",
+          "UX tuning for stable camera tracking and touch-first interactions."
+        ],
+        "hotline": [
+          "Renault AR loaded. QR session pipeline online.",
+          "AR interaction suite ready: doors, lights, seats, and color states.",
+          "Tracking stability checks passed for handheld movement and surface detection.",
+          "Touch interaction profile is tuned for non-technical users."
+        ],
+        "hotlineHover": "Renault AR preview active. Mobile-first interaction stack detected."
+      },
+      {
+        "id": "garden-care-vr",
+        "zone": "xr",
+        "thumb": "garden",
+        "anim": "anim-garden",
+        "title": "Garden Care VR",
+        "type": "VR Simulation",
+        "engine": "Unity / C#",
+        "platforms": [
+          "Desktop (VR Runtime)"
+        ],
+        "objective": "Garden Care VR is an immersive simulation centered on maintenance gameplay: remove harmful grass, protect healthy growth zones, and manage the garden state through direct interaction.",
+        "narrative": "I structured the loop around calm, tactile repetition so player actions feel meaningful without unnecessary complexity. The experience emphasizes comfort, feedback clarity, and natural VR interaction flow.",
+        "technical": [
+          "Immersive object interaction loops for grab/remove actions.",
+          "Task-state logic for plant health progression and level completion.",
+          "VR comfort and interaction feedback pass for usability."
+        ],
+        "hotline": [
+          "Garden Care VR loaded. Precision and consistency over speed.",
+          "Growth-state simulation active. Keep harmful grass under control.",
+          "VR comfort profile active: gentle pacing, tactile cleanup loop, clear feedback.",
+          "Plant-state progression is tracking each cleanup action in real time."
+        ],
+        "hotlineHover": "Garden Care VR highlighted. Maintenance loop ready."
+      },
+      {
+        "id": "elsewedy-qa",
+        "zone": "xr",
+        "thumb": "motor",
+        "anim": "anim-conveyor",
+        "title": "Elsewedy QA Game",
+        "type": "VR / Desktop Industrial QA",
+        "engine": "Unity / C#",
+        "platforms": [
+          "Desktop"
+        ],
+        "objective": "Elsewedy QA Game is a training-focused inspection simulation where the player evaluates moving motors on an assembly line and removes defective units before they pass downstream.",
+        "narrative": "This project was designed to translate real QA logic into an interactive workflow. The objective was operational clarity: detect issues quickly, commit confident decisions, and keep line integrity high.",
+        "technical": [
+          "Conveyor inspection loop with pass/fail classification logic.",
+          "Real-world QA-inspired workflow translated into interactive gameplay steps.",
+          "Designed for training-style repeatability and clear user feedback."
+        ],
+        "hotline": [
+          "Elsewedy QA loaded. Inspection line running.",
+          "Defect filtering protocol online. Accuracy matters.",
+          "Inspection rhythm calibrated for repeatable training-style sessions.",
+          "Line integrity mode active: flag anomalies early and commit decisions fast."
+        ],
+        "hotlineHover": "Elsewedy QA highlighted. Conveyor inspection protocol is armed."
+      }
+    ]
+  }
+}

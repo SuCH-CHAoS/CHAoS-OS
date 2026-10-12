@@ -1,0 +1,1199 @@
+body.mode-arcade-active {
+  --arcade-hotline-safe-right: clamp(120px, 18vw, 250px);
+}
+
+.arcade-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100dvh;
+  padding: 10px var(--arcade-hotline-safe-right) 10px 10px;
+  background:
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.06), transparent 46%),
+    linear-gradient(180deg, #4f5a60, #3f4a50 40%, #374147);
+  color: #f8f8f8;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  box-sizing: border-box;
+}
+
+.arcade-cabinet {
+  width: 100%;
+  height: 100%;
+  border: 4px solid #2a3036;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #5a666d, #46515a);
+  box-shadow:
+    inset 0 0 0 2px #748089,
+    inset 0 0 12px rgba(0, 0, 0, 0.28),
+    0 8px 18px rgba(0, 0, 0, 0.3);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 0;
+}
+
+.arcade-marquee {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  align-items: center;
+  padding: 10px 12px;
+  border-bottom: 2px solid #2e3745;
+  background: linear-gradient(90deg, #383f52, #2c3548);
+}
+
+.arcade-kicker {
+  font-size: 10px;
+  color: #ffbf73;
+  letter-spacing: 1px;
+}
+
+.arcade-title {
+  grid-column: 1 / 2;
+  margin-top: 2px;
+  font-size: clamp(16px, 2.2vw, 28px);
+  color: #ffcc4d;
+  text-shadow:
+    2px 0 #8b3f12,
+    -2px 0 #8b3f12,
+    0 2px #8b3f12,
+    0 -2px #8b3f12;
+  animation: none;
+}
+
+.arcade-exit-btn {
+  grid-column: 2 / 3;
+  grid-row: 1 / span 2;
+  border: 2px solid #d4c8b5;
+  background: #8b3f3f;
+  color: #fff;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 10px;
+  padding: 7px 10px;
+}
+
+.arcade-screen-frame {
+  position: relative;
+  margin: 10px;
+  padding: 12px;
+  min-height: 0;
+  border-radius: 38px;
+  background: linear-gradient(180deg, #3a3b40, #26292e);
+  border: 3px solid #14161a;
+  box-shadow:
+    inset 0 0 0 2px #52565d,
+    inset 0 0 24px rgba(0, 0, 0, 0.5);
+}
+
+.arcade-screen-corners span {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dadde2;
+  box-shadow: 0 0 0 1px #222933;
+}
+
+.arcade-screen-corners span:nth-child(1) { left: 14px; top: 14px; }
+.arcade-screen-corners span:nth-child(2) { right: 14px; top: 14px; }
+.arcade-screen-corners span:nth-child(3) { left: 14px; bottom: 14px; }
+.arcade-screen-corners span:nth-child(4) { right: 14px; bottom: 14px; }
+
+.arcade-screen {
+  position: relative;
+  height: 100%;
+  min-height: 0;
+  border-radius: 30px;
+  border: 2px solid #101317;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(198, 26, 155, 0.14) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(198, 26, 155, 0.14) 1px, transparent 1px),
+    #262128;
+  background-size: 30px 30px, 30px 30px, auto;
+  box-shadow:
+    inset 0 0 24px rgba(0, 0, 0, 0.55),
+    inset 0 0 8px rgba(255, 79, 221, 0.12);
+  animation: none;
+}
+
+.arcade-screen::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 3px,
+    rgba(0, 0, 0, 0.18) 4px,
+    rgba(0, 0, 0, 0.18) 5px
+  );
+  pointer-events: none;
+}
+
+.arcade-screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 30px;
+  background:
+    radial-gradient(ellipse at 48% 20%, rgba(255, 255, 255, 0.08), transparent 44%),
+    radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.55) 100%);
+  transform: scale(1.02, 0.97);
+  pointer-events: none;
+}
+
+.zone-switch-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.marquee-zone-switch-row {
+  display: none;
+}
+
+.zone-btn {
+  border: 2px solid #f8b36c;
+  background: #3b2f43;
+  color: #ffd9a5;
+  border-radius: 0;
+  font-family: inherit;
+  font-size: 11px;
+  padding: 8px 6px;
+}
+
+.zone-btn.active {
+  border-color: #ffe066;
+  color: #fff1b8;
+  box-shadow: inset 0 0 0 2px rgba(255, 224, 102, 0.35);
+  animation: zoneBtnPop16 280ms steps(4, end), zoneBtnBlink16 1.3s steps(2, end) infinite;
+}
+
+.arcade-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.28fr);
+  gap: 10px;
+  min-height: 0;
+  flex: 1;
+}
+
+.retro-fx-strip {
+  position: relative;
+  height: 14px;
+  margin: 0 0 10px;
+  border: 1px solid rgba(255, 201, 95, 0.38);
+  background: linear-gradient(180deg, rgba(24, 16, 31, 0.92), rgba(12, 8, 16, 0.92));
+  overflow: hidden;
+}
+
+.retro-fx-strip span {
+  position: absolute;
+  display: block;
+}
+
+
+.fx-coin {
+  left: 12px;
+  top: 2px;
+  width: 8px;
+  height: 8px;
+  background: #ffd858;
+  box-shadow:
+    0 0 0 1px #8a5f00,
+    inset 1px 0 0 #fff3b1;
+  animation: none;
+}
+
+.fx-block {
+  left: 42px;
+  top: 3px;
+  width: 10px;
+  height: 8px;
+  background:
+    linear-gradient(90deg, transparent 2px, rgba(86, 36, 12, 0.7) 2px, rgba(86, 36, 12, 0.7) 3px, transparent 3px),
+    linear-gradient(180deg, #ce8f4d, #9b622f);
+  border: 1px solid #5f2e16;
+  animation: none;
+}
+
+.fx-runner {
+  left: -14px;
+  top: 4px;
+  width: 8px;
+  height: 6px;
+  background: #84f0ff;
+  box-shadow: 0 0 0 1px #0f4b58;
+  animation: none;
+}
+
+.fx-flag {
+  right: 14px;
+  top: 1px;
+  width: 2px;
+  height: 10px;
+  background: #cbcfde;
+}
+
+.fx-flag::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0;
+  width: 6px;
+  height: 5px;
+  background: #ff6b6b;
+  animation: none;
+}
+
+.arcade-grid-animate {
+  animation: none;
+}
+
+.zone-transition {
+  animation: none;
+}
+
+.project-list-panel,
+.project-detail-panel {
+  border: 2px solid #5d6f80;
+  background: rgba(10, 14, 25, 0.9);
+  padding: 9px;
+  min-height: 0;
+}
+
+.panel-label {
+  position: relative;
+  font-size: 10px;
+  color: #ffe066;
+  margin-bottom: 8px;
+}
+
+.panel-label::after {
+  content: "  PRESS START";
+  color: #ffd08f;
+  animation: promptBlink16 1.05s ease-in-out infinite;
+}
+
+.project-list-panel {
+  display: grid;
+  gap: 7px;
+  align-content: start;
+  overflow: auto;
+}
+
+.project-detail-panel {
+  overflow: auto;
+}
+
+.project-detail-animate {
+  animation: detailPanelList16 240ms steps(4, end);
+}
+
+.detail-transition {
+  animation: detailPanelList16 240ms steps(4, end), detailNeonTrace16 240ms steps(3, end);
+}
+
+.project-card {
+  display: grid;
+  position: relative;
+  grid-template-columns: 62px minmax(0, 1fr);
+  column-gap: 8px;
+  row-gap: 2px;
+  align-items: center;
+  text-align: left;
+  border: 2px solid #6888a6;
+  background: linear-gradient(135deg, #212a3a, #161d2c);
+  color: #d7f4ff;
+  padding: 8px 8px 8px 16px;
+  border-radius: 0;
+  font-family: inherit;
+  animation: none;
+}
+
+.project-card.active {
+  border-color: #ffe066;
+  color: #fff5cc;
+  animation: cardSelect16 250ms steps(5, end);
+}
+
+.project-card.active::before {
+  content: ">";
+  position: absolute;
+  left: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #ffe066;
+  font-size: 10px;
+  animation: selectorBlink16 0.85s ease-in-out infinite;
+}
+
+.project-title { grid-column: 2; font-size: 11px; margin-bottom: 5px; }
+.project-meta { grid-column: 2; font-size: 9px; color: #9fc6ff; margin-bottom: 3px; }
+.project-engine { grid-column: 2; font-size: 9px; color: #ffd4a8; }
+.project-title,
+.project-meta,
+.project-engine {
+  overflow-wrap: anywhere;
+  line-height: 1.35;
+}
+
+.pixel-thumb {
+  grid-row: 1 / span 3;
+  width: 58px;
+  aspect-ratio: 1 / 1;
+  padding: 5px;
+  border: 1px solid #6e8fb0;
+  background: #111828;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1px;
+}
+
+.pixel-thumb.is-image {
+  display: block;
+  padding: 3px;
+}
+
+.pixel-thumb-image {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  image-rendering: pixelated;
+}
+
+.thumb-px { background: transparent; }
+.thumb-px.a { background: #89f8ff; }
+.thumb-px.b { background: #ffe066; }
+.thumb-px.c { background: #7dff9e; }
+
+.project-card.active .pixel-thumb.anim-runner .thumb-px.a,
+.project-card.active .pixel-thumb.anim-runner .thumb-px.b { animation: thumbRun16 0.8s steps(2, end) infinite; }
+
+.project-card.active .pixel-thumb.anim-island .thumb-px.c,
+.project-card.active .pixel-thumb.anim-island .thumb-px.b { animation: thumbWave16 1.25s steps(2, end) infinite; }
+
+.project-card.active .pixel-thumb.anim-car .thumb-px.b { animation: thumbBlink16 0.78s steps(2, end) infinite; }
+.project-card.active .pixel-thumb.anim-garden .thumb-px.c { animation: thumbGrow16 1.35s steps(2, end) infinite; }
+
+.project-card.active .pixel-thumb.anim-conveyor .thumb-px.a,
+.project-card.active .pixel-thumb.anim-conveyor .thumb-px.b { animation: thumbShift16 0.92s steps(2, end) infinite; }
+
+.details-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+
+.details-head h3 { margin: 0; font-size: 12px; color: #ffe066; }
+
+.details-head span {
+  font-size: 9px;
+  color: #9fc6ff;
+  border: 1px solid #9fc6ff;
+  padding: 2px 4px;
+}
+
+.project-platforms {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-bottom: 9px;
+}
+
+.project-platforms span {
+  border: 1px solid #ffb272;
+  color: #ffe2c9;
+  font-size: 8px;
+  padding: 2px 4px;
+}
+
+.details-objective { margin: 0 0 10px; line-height: 1.55; font-size: 10px; color: #d8f6ff; }
+.details-label { font-size: 10px; color: #ffe066; margin-bottom: 6px; }
+.details-objective,
+.details-narrative,
+.details-list {
+  overflow-wrap: anywhere;
+}
+
+.details-list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.5;
+  color: #c9f4ff;
+  font-size: 10px;
+}
+
+.arcade-control-deck {
+  position: relative;
+  height: 96px;
+  border-top: 4px solid #3b2a20;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      #d5b290 0px,
+      #d5b290 6px,
+      #b9855d 7px,
+      #b9855d 10px
+    );
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-inline: clamp(24px, 7vw, 120px);
+  box-shadow:
+    inset 0 3px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -10px 18px rgba(0, 0, 0, 0.2);
+}
+
+.arcade-control-deck::before {
+  content: "";
+  position: absolute;
+  inset: 8px 14px 12px;
+  border: 2px solid #6d4a36;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(70, 36, 18, 0.1));
+  pointer-events: none;
+}
+
+.deck-joystick-assembly {
+  position: relative;
+  width: 104px;
+  height: 70px;
+  animation: none;
+}
+
+
+.joystick-shadow {
+  position: absolute;
+  left: 19px;
+  bottom: 8px;
+  width: 58px;
+  height: 14px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.38);
+}
+
+.joystick-base {
+  position: absolute;
+  left: 15px;
+  bottom: 10px;
+  width: 66px;
+  height: 30px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #2b3340, #131920);
+  border: 2px solid #090d13;
+  box-shadow: inset 0 0 0 2px #3f4a59;
+}
+
+.joystick-shaft {
+  position: absolute;
+  left: 43px;
+  bottom: 32px;
+  width: 9px;
+  height: 20px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #d9dce3, #636d7a);
+}
+
+.joystick-knob {
+  position: absolute;
+  left: 34px;
+  bottom: 46px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid #4b1027;
+  background: radial-gradient(circle at 35% 30%, #ff9bc3, #db2c6f 72%);
+  box-shadow:
+    0 0 0 2px #f7cedf,
+    0 0 12px rgba(255, 79, 143, 0.48);
+}
+
+.deck-button-cluster {
+  position: relative;
+  width: clamp(320px, 42vw, 520px);
+  height: 64px;
+  transform: translateY(3px);
+}
+
+.deck-btn {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid #241815;
+  cursor: pointer;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.26),
+    0 2px 0 #2b1d16,
+    0 0 10px rgba(255, 255, 255, 0.12);
+  animation: none;
+}
+
+.deck-btn:hover {
+  filter: brightness(1.08);
+}
+
+.deck-btn:active {
+  transform: translateY(2px) scale(0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.22),
+    0 1px 0 #2b1d16,
+    0 0 6px rgba(255, 255, 255, 0.1);
+}
+
+.deck-btn:focus-visible {
+  outline: 2px dashed #ffe066;
+  outline-offset: 2px;
+}
+
+.deck-btn:disabled {
+  cursor: default;
+}
+
+.deck-btn-label {
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 9px;
+  color: #fff7cf;
+  line-height: 1;
+  font-weight: 700;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.deck-btn.b1 {
+  background: radial-gradient(circle at 35% 30%, #ff9b8d, #cd3723 72%);
+}
+
+.deck-btn.b2 {
+  background: radial-gradient(circle at 35% 30%, #ffe799, #c78f16 72%);
+  animation-delay: 0.12s;
+}
+
+.deck-btn.b3 {
+  background: radial-gradient(circle at 35% 30%, #95ffd6, #1fa56b 72%);
+  animation-delay: 0.24s;
+}
+
+.deck-btn.b4 {
+  background: radial-gradient(circle at 35% 30%, #8cddff, #2579bf 72%);
+  animation-delay: 0.36s;
+}
+
+.deck-btn.b5 {
+  background: radial-gradient(circle at 35% 30%, #c2a0ff, #6e41bf 72%);
+  animation-delay: 0.48s;
+}
+
+.deck-btn.b6 {
+  background: radial-gradient(circle at 35% 30%, #ffc9f8, #bb459a 72%);
+  animation-delay: 0.6s;
+}
+
+.deck-btn.b1 { left: 8px; top: 30px; }
+.deck-btn.b2 { left: calc(20% - 10px); top: 18px; }
+.deck-btn.b3 { left: calc(40% - 12px); top: 9px; }
+.deck-btn.b4 { left: calc(60% - 12px); top: 9px; }
+.deck-btn.b5 { left: calc(80% - 10px); top: 18px; }
+.deck-btn.b6 { right: 8px; top: 30px; }
+
+.arcade-screen.is-zone-switching::before {
+  animation: none;
+}
+
+.arcade-screen.is-zone-switching::after {
+  animation: none;
+}
+
+.arcade-screen.is-zone-switching {
+  animation: none;
+}
+
+.zone-transition .project-card {
+  animation: listRowReveal16 220ms steps(4, end) both;
+}
+
+.zone-transition .project-card:nth-child(2) { animation-delay: 20ms; }
+.zone-transition .project-card:nth-child(3) { animation-delay: 40ms; }
+.zone-transition .project-card:nth-child(4) { animation-delay: 60ms; }
+.zone-transition .project-card:nth-child(5) { animation-delay: 80ms; }
+.zone-transition .project-card:nth-child(6) { animation-delay: 100ms; }
+
+.detail-transition .details-head,
+.detail-transition .project-platforms,
+.detail-transition .details-objective,
+.detail-transition .details-narrative,
+.detail-transition .details-label,
+.detail-transition .details-list {
+  animation: detailLineList16 170ms steps(3, end) both;
+}
+
+.detail-transition .project-platforms { animation-delay: 20ms; }
+.detail-transition .details-objective { animation-delay: 40ms; }
+.detail-transition .details-narrative { animation-delay: 60ms; }
+.detail-transition .details-label { animation-delay: 80ms; }
+.detail-transition .details-list { animation-delay: 100ms; }
+
+@keyframes titleMenu16 {
+  0%, 100% { opacity: 1; }
+  30% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-1px); opacity: 0.85; }
+  70% { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes zoneBtnPop16 {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes zoneBtnBlink16 {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.12); }
+}
+
+@keyframes screenIdle16 {
+  0%, 100% { filter: brightness(1); }
+  50% { filter: brightness(1.04); }
+}
+
+@keyframes menuWipeIn16 {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    filter: contrast(1.15);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: contrast(1);
+  }
+}
+
+@keyframes detailPanelList16 {
+  0% {
+    opacity: 0;
+    transform: translateX(8px);
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes detailNeonTrace16 {
+  0% { box-shadow: inset 0 0 0 rgba(255, 226, 102, 0); }
+  45% { box-shadow: inset 0 -2px 0 rgba(255, 226, 102, 0.32); }
+  100% { box-shadow: inset 0 0 0 rgba(255, 226, 102, 0); }
+}
+
+@keyframes listRowReveal16 {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px);
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes cardSelect16 {
+  0% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-2px) scale(1.02); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes cardBlink16 {
+  0%, 100% {
+    box-shadow: inset 0 0 0 0 rgba(255, 226, 102, 0);
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: inset 0 0 0 2px rgba(255, 226, 102, 0.26);
+    filter: brightness(1.12);
+  }
+}
+
+@keyframes detailLineList16 {
+  0% {
+    opacity: 0;
+    transform: translateY(4px);
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes promptBlink16 {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@keyframes selectorBlink16 {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+@keyframes thumbRun16 {
+  0%, 100% { transform: translateX(0); }
+  50% { transform: translateX(1px); }
+}
+
+@keyframes thumbWave16 {
+  0%, 100% { transform: translateY(0); opacity: 0.8; }
+  50% { transform: translateY(-1px); opacity: 1; }
+}
+
+@keyframes thumbBlink16 {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+@keyframes thumbGrow16 {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.04); filter: brightness(1.22); }
+}
+
+@keyframes thumbShift16 {
+  0%, 100% { transform: translateX(0); opacity: 0.82; }
+  50% { transform: translateX(1px); opacity: 1; }
+}
+
+@keyframes joystick16 {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(-4deg); }
+}
+
+@keyframes button16 {
+  0%, 100% { transform: translateY(0); filter: brightness(1); }
+  50% { transform: translateY(-2px); filter: brightness(1.12); }
+}
+
+@keyframes coinSpin16 {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.2); }
+}
+
+@keyframes blockHit16 {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+@keyframes runner16 {
+  0% { transform: translateX(0) translateY(0); }
+  20% { transform: translateX(45px) translateY(0); }
+  35% { transform: translateX(78px) translateY(-4px); }
+  48% { transform: translateX(108px) translateY(0); }
+  68% { transform: translateX(150px) translateY(0); }
+  85% { transform: translateX(190px) translateY(-2px); }
+  100% { transform: translateX(232px) translateY(0); }
+}
+
+@keyframes flag16 {
+  0%, 100% { transform: skewY(0deg); }
+  50% { transform: skewY(-7deg); }
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+  .arcade-title,
+  .project-card,
+  .pixel-thumb .thumb-px,
+  .deck-btn,
+  .deck-joystick-assembly,
+  .arcade-screen.is-zone-switching,
+  .arcade-screen.is-zone-switching::before,
+  .arcade-screen.is-zone-switching::after,
+  .retro-fx-strip span,
+  .project-card.active {
+    animation: none !important;
+  }
+
+  .zone-transition .project-card,
+  .detail-transition .details-head,
+  .detail-transition .project-platforms,
+  .detail-transition .details-objective,
+  .detail-transition .details-narrative,
+  .detail-transition .details-label,
+  .detail-transition .details-list,
+  .zone-btn.active {
+    animation: none !important;
+  }
+
+  .arcade-screen::before,
+  .arcade-screen::after {
+    display: none;
+  }
+}
+
+@media (max-width: 960px) {
+  body.mode-arcade-active {
+    --arcade-hotline-safe-right: 56px;
+  }
+
+  .arcade-shell {
+    padding: 8px var(--arcade-hotline-safe-right) 8px 8px;
+  }
+
+  .arcade-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 124px minmax(0, clamp(150px, 30vh, 200px));
+    align-content: start;
+  }
+
+  .project-list-panel,
+  .project-detail-panel {
+    min-height: 0;
+  }
+
+  .project-detail-panel {
+    max-height: clamp(150px, 30vh, 200px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .project-list-panel {
+    overflow-y: auto;
+    overflow-x: hidden;
+    gap: 6px;
+  }
+
+  .project-card {
+    min-height: 74px;
+  }
+
+  .arcade-control-deck {
+    height: 74px;
+    padding-inline: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  body.mode-arcade-active {
+    --arcade-hotline-safe-right: 0px;
+  }
+
+  .arcade-shell {
+    padding: 6px;
+    padding-bottom: 6px;
+  }
+
+  .arcade-cabinet {
+    overflow: hidden;
+    height: min(78dvh, 660px);
+    grid-template-rows: auto minmax(0, 1fr) 64px;
+  }
+
+  .arcade-kicker {
+    display: none;
+  }
+
+  .arcade-title {
+    font-size: clamp(12px, 3.8vw, 16px);
+    line-height: 1.2;
+  }
+
+  .arcade-exit-btn {
+    grid-column: 2 / 3;
+    grid-row: 1 / span 2;
+    font-size: 9px;
+    padding: 5px 7px;
+  }
+
+  .marquee-zone-switch-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5px;
+    margin-top: 2px;
+  }
+
+  .marquee-zone-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    min-height: 24px;
+    font-size: 10px;
+    padding: 5px 4px;
+  }
+
+  .arcade-screen-frame {
+    margin: 6px;
+    padding: 6px;
+    border-radius: 16px;
+  }
+
+  .arcade-screen {
+    border-radius: 12px;
+    padding: 7px;
+  }
+
+  .retro-fx-strip {
+    display: none;
+  }
+
+  .zone-btn {
+    font-size: 9px;
+    padding: 6px 4px;
+  }
+
+  .zone-switch-row {
+    display: none;
+  }
+
+  .project-card {
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 6px 6px 6px 13px;
+    column-gap: 6px;
+  }
+
+  .pixel-thumb {
+    width: 42px;
+    padding: 3px;
+  }
+
+  .project-title { font-size: 9px; margin-bottom: 3px; }
+  .project-meta,
+  .project-engine { font-size: 8px; margin-bottom: 1px; }
+  .details-head h3 { font-size: 11px; }
+  .details-head span { font-size: 8px; padding: 2px 3px; }
+  .details-objective,
+  .details-narrative,
+  .details-list { font-size: 9px; line-height: 1.45; }
+
+  .arcade-control-deck {
+    height: 64px;
+    gap: 6px;
+    padding-inline: 6px;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .deck-joystick-assembly {
+    transform: scale(0.5);
+    transform-origin: left center;
+    width: 50px;
+    margin-left: 0;
+  }
+
+  .deck-button-cluster {
+    width: min(66vw, 216px);
+    height: 32px;
+    transform: none;
+    margin-left: 6px;
+    margin-right: 0;
+  }
+
+  .deck-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .deck-btn.b1 { left: 0; top: 2px; }
+  .deck-btn.b2 { left: calc(20% - 6px); top: 2px; }
+  .deck-btn.b3 { left: calc(40% - 12px); top: 2px; }
+  .deck-btn.b4 { left: calc(60% - 17px); top: 2px; }
+  .deck-btn.b5 { left: calc(80% - 23px); top: 2px; }
+  .deck-btn.b6 { right: 0; top: 2px; }
+}
+
+@media (max-width: 760px) {
+  .arcade-marquee {
+    padding: 8px 10px;
+  }
+
+  .arcade-kicker {
+    font-size: 9px;
+  }
+
+  .arcade-title {
+    font-size: clamp(14px, 4.2vw, 20px);
+  }
+
+  .arcade-screen-frame {
+    margin: 6px;
+    padding: 8px;
+    border-radius: 24px;
+  }
+
+  .arcade-screen {
+    border-radius: 18px;
+    padding: 8px;
+  }
+
+  .zone-btn {
+    font-size: 10px;
+    padding: 7px 5px;
+  }
+}
+
+@media (max-width: 640px) {
+  body.mode-arcade-active {
+    --arcade-hotline-safe-right: 0px;
+  }
+
+  .arcade-shell {
+    padding: 6px;
+    padding-bottom: 6px;
+  }
+
+  .arcade-cabinet {
+    height: min(75dvh, 600px);
+  }
+
+  .arcade-marquee {
+    grid-template-columns: 1fr auto;
+    gap: 6px;
+  }
+
+  .arcade-exit-btn {
+    grid-column: 2 / 3;
+    grid-row: 1 / span 2;
+    justify-self: end;
+  }
+
+  .arcade-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: 112px minmax(0, clamp(135px, 28vh, 180px));
+    gap: 8px;
+    align-content: start;
+  }
+
+  .project-list-panel,
+  .project-detail-panel {
+    padding: 8px;
+  }
+
+  .project-detail-panel {
+    max-height: clamp(135px, 28vh, 180px);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  .project-card { grid-template-columns: 50px minmax(0, 1fr); }
+  .pixel-thumb { width: 48px; }
+  .project-title { font-size: 11px; }
+  .project-meta,
+  .project-engine { font-size: 9px; }
+  .details-head h3 { font-size: 12px; }
+  .details-head span { font-size: 9px; }
+  .details-objective,
+  .details-list { font-size: 10px; }
+
+  .arcade-control-deck {
+    height: 58px;
+    padding-inline: 6px;
+    gap: 5px;
+    justify-content: center;
+  }
+
+  .deck-joystick-assembly {
+    transform: scale(0.42);
+    transform-origin: left center;
+    width: 48px;
+  }
+
+  .deck-button-cluster {
+    width: min(66vw, 196px);
+    height: 32px;
+    transform: none;
+    margin-left: 6px;
+  }
+
+  .deck-btn-label {
+    font-size: 6px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.mode-arcade-active {
+    --arcade-hotline-safe-right: 0px;
+  }
+
+  .arcade-shell {
+    padding: 6px;
+    padding-bottom: 6px;
+  }
+
+  .arcade-cabinet {
+    height: min(70dvh, 540px);
+    grid-template-rows: auto minmax(0, 1fr) 52px;
+  }
+
+  .arcade-cabinet {
+    border-width: 3px;
+  }
+
+  .arcade-marquee {
+    padding: 7px 8px;
+  }
+
+  .arcade-kicker {
+    display: none;
+  }
+
+  .arcade-title {
+    font-size: 13px;
+  }
+
+  .arcade-exit-btn {
+    font-size: 9px;
+    padding: 6px 8px;
+  }
+
+  .marquee-zone-switch-row {
+    gap: 4px;
+  }
+
+  .marquee-zone-btn {
+    padding: 4px 3px;
+    font-size: 9px;
+  }
+
+  .arcade-screen-frame {
+    margin: 5px;
+    padding: 6px;
+  }
+
+  .arcade-screen {
+    padding: 6px;
+  }
+
+  .arcade-control-deck {
+    height: 58px;
+    gap: 4px;
+    justify-content: center;
+  }
+
+  .deck-joystick-assembly {
+    transform: scale(0.58);
+  }
+
+  .deck-button-cluster {
+    width: min(66vw, 184px);
+    height: 32px;
+    margin-left: 6px;
+  }
+}

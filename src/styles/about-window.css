@@ -1,0 +1,197 @@
+/* =========================
+   ABOUT WINDOW (WIN98 STYLE)
+========================= */
+
+.about-window {
+  background: #c0c0c0;
+  color: #000;
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+
+  padding: 10px;
+  height: 100%;
+  box-sizing: border-box;
+  overflow: auto;
+  scroll-padding-bottom: var(--hotline-safe-block);
+}
+
+/* =========================
+   TOP LAYOUT
+========================= */
+
+.about-top {
+  display: flex;
+  gap: 12px;
+}
+
+/* =========================
+   PROFILE PANEL (LEFT)
+========================= */
+
+.about-profile {
+  width: 160px;
+  background: #e0e0e0;
+
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* PHOTO BOX */
+.about-photo {
+  width: 100%;
+  height: 150px;
+
+  background: #ffffff;
+  color: #808080;
+
+  border: 2px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+
+.about-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* INFO TEXT */
+.about-info {
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.about-name {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.about-role {
+  margin-bottom: 4px;
+}
+
+.about-location,
+.about-status {
+  color: #404040;
+}
+
+/* =========================
+   DOWNLOAD CV BUTTON
+========================= */
+
+.about-cv-btn {
+  margin-top: 8px;
+  display: block;
+  text-align: center;
+
+  background: #c0c0c0;
+  color: #000;
+  text-decoration: none;
+
+  border: 2px solid #ffffff;
+  border-right-color: #808080;
+  border-bottom-color: #808080;
+
+  padding: 4px 6px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.about-cv-btn:active {
+  border: 2px solid #808080;
+  border-right-color: #ffffff;
+  border-bottom-color: #ffffff;
+}
+
+/* =========================
+   DESCRIPTION (RIGHT)
+========================= */
+
+.about-description {
+  flex: 1;
+}
+
+/* =========================
+   SECTIONS
+========================= */
+
+.about-section {
+  margin-bottom: 10px;
+}
+
+.about-section-title {
+  font-weight: bold;
+  margin-bottom: 4px;
+  border-bottom: 1px solid #808080;
+  padding-bottom: 2px;
+}
+
+.about-section-content {
+  line-height: 1.4;
+}
+
+/* =========================
+   LISTS
+========================= */
+
+.about-list {
+  padding-left: 16px;
+  margin: 0;
+}
+
+.about-list li {
+  margin-bottom: 2px;
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.about-divider {
+  height: 2px;
+  margin: 10px 0;
+  background: linear-gradient(to right, #808080, #ffffff);
+}
+
+/* =========================
+   BOTTOM AREA
+========================= */
+
+.about-bottom {
+  display: flex;
+  gap: 20px;
+}
+
+/* =========================
+   RESPONSIVE ABOUT WINDOW
+========================= */
+
+@media (max-width: 768px) {
+  .about-window {
+    padding-bottom: var(--hotline-safe-block);
+  }
+
+  .about-top {
+    flex-direction: column;
+  }
+
+  .about-profile {
+    width: 100%;
+  }
+
+  .about-bottom {
+    flex-direction: column;
+    gap: 12px;
+  }
+}

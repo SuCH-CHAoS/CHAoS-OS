@@ -1,0 +1,41 @@
+.bios {
+  height: 100vh;
+  background: #000;
+  color: #cfcfcf;
+  font-family: 'BIOS', monospace;
+  font-size: clamp(12px, 1.2vw, 16px);
+  line-height: 1.25;
+  padding: 16px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.bios-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .bios {
+    padding: 14px 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .bios {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
+
+/* Small Phones */
+@media (max-width: 480px) {
+  .bios {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+}

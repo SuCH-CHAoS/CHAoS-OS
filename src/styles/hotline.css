@@ -1,0 +1,293 @@
+/* =========================
+   HOTLINE DEVICE (RETRO OS)
+   FLOATING + CLASSIC BUBBLE
+   + CRT-STYLE GLOW
+========================= */
+
+.hotline-container {
+  position: fixed;
+  right: clamp(12px, 2.5vw, 40px);
+  bottom: calc(var(--desktop-taskbar-height) + clamp(12px, 4vh, 44px) + env(safe-area-inset-bottom, 0px));
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  z-index: 3500;
+  pointer-events: none;
+}
+
+/* =========================
+   RETRO OS MESSAGE BUBBLE
+========================= */
+
+.hotline-bubble {
+  background: #ffffe1;              /* classic Win98 tooltip */
+  color: #000;
+
+  border: 2px solid #000;
+  padding: 6px 8px;
+
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  text-align: center;
+
+  max-width: 280px;
+  margin-bottom: 20px;
+
+  box-shadow:
+    2px 2px 0 #808080,
+    0 0 6px rgba(255, 255, 180, 0.4); /* subtle phosphor glow */
+  overflow-wrap: anywhere;
+  pointer-events: none;
+}
+
+/* =========================
+   PHONE IMAGE
+========================= */
+
+.hotline-phone-button {
+  display: block;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.hotline-phone-button:focus-visible {
+  outline: 2px dotted #ffffe1;
+  outline-offset: 3px;
+}
+
+.hotline-phone {
+  display: block;
+  width: 70px;
+  height: auto;
+
+  image-rendering: pixelated;
+  pointer-events: none;
+
+  /* IDLE LEVITATION + SOFT CRT GLOW */
+  animation:
+    levitate 4s ease-in-out infinite,
+    idlePulse 3.5s ease-in-out infinite,
+    crtGlow 5s ease-in-out infinite;
+}
+
+/* RINGING (STRONGER GLOW + SHAKE) */
+.hotline-phone.ringing {
+  animation:
+    levitate 4s ease-in-out infinite,
+    idlePulse 3.5s ease-in-out infinite,
+    crtGlow 5s ease-in-out infinite,
+    ringShake 0.15s 8 alternate,
+    crtGlowActive 0.8s ease-in-out 1;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+/* Gentle float */
+@keyframes levitate {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Subtle brightness breathing */
+@keyframes idlePulse {
+  0%   { filter: brightness(1); }
+  50%  { filter: brightness(1.08); }
+  100% { filter: brightness(1); }
+}
+
+/* CRT phosphor glow (idle) */
+@keyframes crtGlow {
+  0% {
+    filter: drop-shadow(0 0 2px rgba(255, 120, 120, 0.25));
+  }
+  50% {
+    filter: drop-shadow(0 0 5px rgba(255, 120, 120, 0.45));
+  }
+  100% {
+    filter: drop-shadow(0 0 2px rgba(255, 120, 120, 0.25));
+  }
+}
+
+/* =========================
+   GAME MODE CONSTRAINTS
+========================= */
+
+body.mode-arcade-active .hotline-container {
+  right: max(8px, calc((var(--arcade-hotline-safe-right, 160px) - 210px) / 2));
+  align-items: center;
+}
+
+body.mode-arcade-active .hotline-bubble {
+  max-width: clamp(150px, calc(var(--arcade-hotline-safe-right, 160px) - 16px), 220px);
+  margin-bottom: 14px;
+  text-align: center;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  line-height: 1.3;
+}
+
+body.admin-dashboard-active .hotline-container {
+  display: none;
+}
+
+/* Stronger alert glow (ringing) */
+@keyframes crtGlowActive {
+  0% {
+    filter: drop-shadow(0 0 4px rgba(255, 80, 80, 0.6));
+  }
+  50% {
+    filter: drop-shadow(0 0 8px rgba(255, 80, 80, 0.9));
+  }
+  100% {
+    filter: drop-shadow(0 0 4px rgba(255, 80, 80, 0.6));
+  }
+}
+
+/* Ring shake */
+@keyframes ringShake {
+  from { transform: translateX(-2px); }
+  to   { transform: translateX(2px); }
+}
+
+/* =========================
+   RESPONSIVE PHONE
+========================= */
+
+@media (max-width: 768px) {
+  .hotline-container {
+    right: max(10px, env(safe-area-inset-right, 0px));
+    bottom: calc(var(--desktop-taskbar-height) + 6px + env(safe-area-inset-bottom, 0px));
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  .hotline-bubble {
+    max-width: min(232px, calc(100vw - 84px));
+    margin-right: 0;
+    margin-bottom: 0;
+    transform: translate(6px, -8px);
+  }
+
+  .hotline-phone {
+    width: 46px;
+  }
+
+  body.mode-arcade-active .hotline-container {
+    left: auto;
+    right: 20px;
+    transform: none;
+    bottom: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  body.mode-arcade-active .hotline-bubble {
+    max-width: min(240px, 58vw);
+    min-width: 150px;
+    text-align: center;
+    margin-bottom: 0;
+  }
+
+  body.mode-arcade-active .hotline-phone {
+    width: 56px;
+    animation:
+      levitate 4s ease-in-out infinite,
+      idlePulse 3.5s ease-in-out infinite,
+      crtGlow 5s ease-in-out infinite;
+  }
+
+  body.mode-arcade-active .hotline-phone.ringing {
+    animation:
+      levitate 4s ease-in-out infinite,
+      idlePulse 3.5s ease-in-out infinite,
+      crtGlow 5s ease-in-out infinite,
+      ringShake 0.15s 8 alternate,
+      crtGlowActive 0.8s ease-in-out 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .hotline-container {
+    right: max(6px, env(safe-area-inset-right, 0px));
+    bottom: calc(var(--desktop-taskbar-height) + 4px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hotline-phone {
+    width: 40px;
+  }
+
+  .hotline-bubble {
+    max-width: min(190px, calc(100vw - 72px));
+    margin-right: 0;
+    margin-bottom: 0;
+    transform: translate(5px, -7px);
+  }
+}
+
+@media (max-width: 640px) {
+  body.mode-arcade-active .hotline-container {
+    left: auto;
+    right: 18px;
+    transform: none;
+    bottom: 8px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 7px;
+  }
+
+  body.mode-arcade-active .hotline-bubble {
+    max-width: min(220px, 56vw);
+    min-width: 138px;
+    text-align: center;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.mode-arcade-active .hotline-container {
+    left: auto;
+    right: 30px;
+    transform: none;
+    bottom: 6px;
+    gap: 6px;
+  }
+
+  body.mode-arcade-active .hotline-bubble {
+    max-width: min(192px, 52vw);
+    min-width: 126px;
+    font-size: 10px;
+    line-height: 1.35;
+  }
+
+  body.mode-arcade-active .hotline-phone {
+    width: 52px;
+    animation:
+      levitate 4s ease-in-out infinite,
+      idlePulse 3.5s ease-in-out infinite,
+      crtGlow 5s ease-in-out infinite;
+  }
+
+  body.mode-arcade-active .hotline-phone.ringing {
+    animation:
+      levitate 4s ease-in-out infinite,
+      idlePulse 3.5s ease-in-out infinite,
+      crtGlow 5s ease-in-out infinite,
+      ringShake 0.15s 8 alternate,
+      crtGlowActive 0.8s ease-in-out 1;
+  }
+}
