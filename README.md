@@ -15,6 +15,19 @@ Open it at **[chaos-os.pages.dev](https://chaos-os.pages.dev/)**.
 
 The desktop, window behavior, and retro visual language are part of the experience. The layout adapts for touch screens and smaller devices while keeping the phone and its message bubble available.
 
+## Easter Eggs
+
+There are a few secrets tucked around the desktop for curious visitors:
+
+- Click the **CHAoS OS** taskbar label three times to trigger a short reveal.
+- Try the small blank area just above the taskbar label a few times. There is something hiding there.
+- Enter the classic Konami Code on the desktop for an arcade-themed response.
+- Visit the desktop late at night for a different message.
+- Tap the phone or the security icon in the system tray more than once; they have responses of their own.
+- In **Shell**, type `EGGS` to see the public hidden-command hints. Commands include `WAKEUP`, `SAMURAI`, `PANTHEON`, `GHOST`, `RUNNER`, `GLITCH`, and `KONAMI`.
+
+Some of these are easier to find than others. The private administrator entry details are intentionally not documented here.
+
 ## Technology
 
 - React 19
