@@ -71,6 +71,14 @@ The hosted Supabase content record may remain empty. Until it is initialized, th
 
 Media uploaded through the Control Desk is stored in the configured Supabase Storage bucket. Public URLs for uploaded assets are referenced by the saved website content.
 
+To copy the current live Supabase content into the local fallback file, run:
+
+```bash
+npm run sync:live-content
+```
+
+This is a deliberate local sync, not an automatic reconnect action. It saves each changed live snapshot under `.chaos-backups/website-content/` as `backup-001`, `backup-002`, and so on, then updates `src/data/websiteContent.json`. Backups are local-only, ignored by Git, and backups older than 30 days are removed while the newest backup is always retained.
+
 ## Supabase Configuration
 
 Set these variables in `.env.local` for local use and in the hosting provider’s build settings for production:
