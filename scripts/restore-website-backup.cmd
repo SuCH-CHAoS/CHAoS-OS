@@ -1,8 +1,8 @@
 @echo off
 setlocal EnableExtensions
 
-rem Run this file directly from Explorer or a terminal. The PowerShell helper handles
-rem JSON validation and hidden password input while this launcher keeps it easy to start.
+rem Run this file directly from Explorer or a terminal. The PowerShell helper provides
+rem the interactive transfer console, JSON validation, and hidden password input.
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0restore-website-backup.ps1"
 set "exitCode=%ERRORLEVEL%"
 

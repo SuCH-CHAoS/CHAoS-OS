@@ -73,13 +73,18 @@ Media uploaded through the Control Desk is stored in the configured Supabase Sto
 
 Use **Download Backup** in the Control Desk whenever you want a copy of the current content. It downloads a complete JSON snapshot of the current draft, including unsaved field edits. Keep downloaded backups in a safe location; the website does not run a background local-sync task or automatically modify the fallback file.
 
-### Restore a Downloaded Backup
+### Transfer and Restore Content
 
-To restore a downloaded backup without editing source files manually, run [`scripts/restore-website-backup.cmd`](scripts/restore-website-backup.cmd). It asks for the project directory and the downloaded JSON backup, checks that GitHub `main` is current, and validates the required content sections before making changes.
+Run [`scripts/restore-website-backup.cmd`](scripts/restore-website-backup.cmd) to open the CHAoS OS content transfer console. It asks for the project directory, checks that GitHub `main` is current, validates every content source, and lets you explicitly choose one direction:
 
-By default it also asks whether to publish the backup to Supabase. Choose **Y**, then enter the Supabase **Auth** administrator email and password when prompted. Those credentials are used only in memory to obtain a short-lived session, and the tool verifies the authenticated user ID against `VITE_SUPABASE_ADMIN_USER_ID` before RLS can accept the update. Your database password, service-role key, and credentials are never saved in the project or the backup.
+- **Live -> Local + GitHub:** Downloads the live Supabase record into `src/data/websiteContent.json`, commits that fallback, and pushes `main`.
+- **Local -> Live + GitHub:** Publishes the current local fallback to Supabase, then commits and pushes that same content file if it changed.
+- **Backup -> Live + Local + GitHub:** Restores a downloaded Control Desk JSON backup to Supabase and the local fallback, then commits and pushes it.
+- **Compare Live and Local:** Shows whether the two content records match without changing anything.
 
-After a successful live publish, the tool writes the same content to `src/data/websiteContent.json`, commits only that file as `Restore website content backup`, and pushes `main` to GitHub. Cloudflare Pages then deploys the updated fallback. If Supabase publishing is skipped, only the Git fallback and Cloudflare deployment are updated.
+Live writes require the Supabase **Auth** administrator email and password. They are used only in memory to obtain a short-lived session, and the tool verifies the authenticated user ID against `VITE_SUPABASE_ADMIN_USER_ID` before RLS can accept the update. Your database password, service-role key, and credentials are never saved in the project or a backup.
+
+The tool never chooses a conflict direction on its own. It stops if GitHub `main` is ahead or behind, or if a transfer would overwrite uncommitted local content. Every successful fallback change is committed as `Sync website content` and pushed to GitHub; Cloudflare Pages then deploys the fallback automatically.
 
 ## Supabase Configuration
 
