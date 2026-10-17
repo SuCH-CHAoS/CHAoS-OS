@@ -552,20 +552,46 @@
     gap: 3px;
   }
 
-  .taskbar-mode,
-  .taskbar-left > .taskbar-divider,
-  .taskbar-right .taskbar-divider,
-  .system-tray {
-    display: none;
-  }
-
   .taskbar-tabs {
     max-width: none;
     gap: 3px;
   }
 
+  .taskbar-right {
+    display: flex;
+    gap: 1px;
+  }
+
+  .system-tray {
+    display: flex;
+    gap: 2px;
+  }
+
+  .tray-icon {
+    width: 14px;
+    height: 14px;
+  }
+
+  .tray-button {
+    padding: 1px;
+    margin: -1px;
+  }
+
+  .taskbar-mode {
+    display: block;
+    font-size: 8px;
+    padding: 0 1px;
+  }
+
+  .taskbar-divider {
+    display: block;
+    margin: 0 1px;
+    height: 16px;
+  }
+
   .taskbar-clock {
     margin-left: 3px;
+    font-size: 8px;
   }
 
   .taskbar-label {
@@ -611,7 +637,7 @@
   }
 
   .taskbar-right {
-    display: none;
+    display: flex;
     margin-left: 0;
     gap: 1px;
   }
@@ -627,25 +653,34 @@
   }
 
   .system-tray {
-    gap: 3px;
+    display: flex;
+    gap: 1px;
   }
 
   .tray-icon {
-    width: 14px;
-    height: 14px;
+    width: 12px;
+    height: 12px;
+  }
+
+  .tray-button {
+    padding: 1px;
+    margin: -1px;
   }
 
   .taskbar-mode {
+    display: block;
     font-size: 8px;
     padding: 0 1px;
   }
 
   .taskbar-clock {
-    display: none;
+    display: block;
     margin-left: 2px;
+    font-size: 8px;
   }
 
   .taskbar-divider {
+    display: block;
     margin: 0 1px;
     height: 15px;
   }
