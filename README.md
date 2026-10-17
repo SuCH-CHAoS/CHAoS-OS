@@ -79,6 +79,14 @@ npm run sync:live-content
 
 This is a deliberate local sync, not an automatic reconnect action. It saves each changed live snapshot under `.chaos-backups/website-content/` as `backup-001`, `backup-002`, and so on, then updates `src/data/websiteContent.json`. Backups are local-only, ignored by Git, and backups older than 30 days are removed while the newest backup is always retained.
 
+To keep the local fallback in sync automatically on this Windows machine, run this once:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/setup-live-content-sync.ps1
+```
+
+It creates a local Task Scheduler entry named `CHAoS OS Live Content Sync`. While you are signed in, it runs the sync command every five minutes. It only updates the local fallback after valid live content has changed, and it never commits, pushes, or uploads files.
+
 ## Supabase Configuration
 
 Set these variables in `.env.local` for local use and in the hosting provider’s build settings for production:
