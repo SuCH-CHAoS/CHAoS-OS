@@ -530,9 +530,14 @@
   }
 
   .taskbar-mode {
+    display: none;
     font-size: 9px;
     padding: 0 2px;
     white-space: nowrap;
+  }
+
+  .taskbar-left > .taskbar-divider {
+    display: none;
   }
 
   .taskbar-clock {
@@ -578,9 +583,13 @@
   }
 
   .taskbar-mode {
-    display: block;
+    display: none;
     font-size: 8px;
     padding: 0 1px;
+  }
+
+  .taskbar-left > .taskbar-divider {
+    display: none;
   }
 
   .taskbar-divider {
@@ -668,7 +677,7 @@
   }
 
   .taskbar-mode {
-    display: block;
+    display: none;
     font-size: 8px;
     padding: 0 1px;
   }
