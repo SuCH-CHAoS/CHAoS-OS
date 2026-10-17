@@ -71,21 +71,15 @@ The hosted Supabase content record may remain empty. Until it is initialized, th
 
 Media uploaded through the Control Desk is stored in the configured Supabase Storage bucket. Public URLs for uploaded assets are referenced by the saved website content.
 
-To copy the current live Supabase content into the local fallback file, run:
+Use **Download Backup** in the Control Desk whenever you want a copy of the current content. It downloads a complete JSON snapshot of the current draft, including unsaved field edits. Keep downloaded backups in a safe location; the website does not run a background local-sync task or automatically modify the fallback file.
 
-```bash
-npm run sync:live-content
-```
+### Restore a Downloaded Backup
 
-This is a deliberate local sync, not an automatic reconnect action. It saves each changed live snapshot under `.chaos-backups/website-content/` as `backup-001`, `backup-002`, and so on, then updates `src/data/websiteContent.json`. Backups are local-only, ignored by Git, and backups older than 30 days are removed while the newest backup is always retained.
+To restore a downloaded backup without editing source files manually, run [`scripts/restore-website-backup.cmd`](scripts/restore-website-backup.cmd). It asks for the project directory and the downloaded JSON backup, checks that GitHub `main` is current, and validates the required content sections before making changes.
 
-To keep the local fallback in sync automatically on this Windows machine, run this once:
+By default it also asks whether to publish the backup to Supabase. Choose **Y**, then enter the Supabase **Auth** administrator email and password when prompted. Those credentials are used only in memory to obtain a short-lived session, and the tool verifies the authenticated user ID against `VITE_SUPABASE_ADMIN_USER_ID` before RLS can accept the update. Your database password, service-role key, and credentials are never saved in the project or the backup.
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts/setup-live-content-sync.ps1
-```
-
-It creates a local Task Scheduler entry named `CHAoS OS Live Content Sync`. While you are signed in, it runs the sync command every five minutes. It only updates the local fallback after valid live content has changed, and it never commits, pushes, or uploads files.
+After a successful live publish, the tool writes the same content to `src/data/websiteContent.json`, commits only that file as `Restore website content backup`, and pushes `main` to GitHub. Cloudflare Pages then deploys the updated fallback. If Supabase publishing is skipped, only the Git fallback and Cloudflare deployment are updated.
 
 ## Supabase Configuration
 

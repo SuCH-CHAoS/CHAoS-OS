@@ -221,6 +221,11 @@ function applyRawDrafts(content, rawDrafts) {
   return nextContent
 }
 
+function createBackupFilename() {
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').replace('Z', '')
+  return `chaos-os-content-backup_${timestamp}.json`
+}
+
 function AdminHomePanel({
   isDirty,
   status,
@@ -228,7 +233,8 @@ function AdminHomePanel({
   storageLabel,
   onSelectSection,
   onReload,
-  onSave
+  onSave,
+  onDownloadBackup
 }) {
   const quickActions = [
     {
@@ -339,6 +345,14 @@ function AdminHomePanel({
           Save writes to <strong>{storageLabel}</strong>.
         </div>
         <div className="admin-inline-actions">
+          <button
+            type="button"
+            className="admin-toolbar-button"
+            onClick={onDownloadBackup}
+            disabled={busy}
+          >
+            Download Backup
+          </button>
           <button
             type="button"
             className="admin-toolbar-button"
@@ -735,6 +749,30 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
     }
   }
 
+  const downloadBackup = () => {
+    try {
+      const nextContent = applyRawDrafts(draftContent, rawDrafts)
+      const backupBlob = new Blob([`${JSON.stringify(nextContent, null, 2)}\n`], {
+        type: 'application/json'
+      })
+      const backupUrl = URL.createObjectURL(backupBlob)
+      const downloadLink = document.createElement('a')
+
+      downloadLink.href = backupUrl
+      downloadLink.download = createBackupFilename()
+      document.body.append(downloadLink)
+      downloadLink.click()
+      downloadLink.remove()
+      window.setTimeout(() => URL.revokeObjectURL(backupUrl), 0)
+
+      setStatus('Backup downloaded. Keep the JSON file somewhere safe.')
+      setHotlineMsg?.('Control desk backup downloaded.')
+    } catch {
+      setStatus('Backup failed: fix invalid raw JSON before downloading.')
+      setHotlineMsg?.('Control desk backup failed.')
+    }
+  }
+
   const saveSection = async () => {
     if (remoteStatus.configured && !canUseRemoteContent) {
       setStatus('Save blocked: Supabase sign-in required.')
@@ -867,6 +905,7 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
                 onSelectSection={handleSelectSection}
                 onReload={reloadContent}
                 onSave={saveSection}
+                    onDownloadBackup={downloadBackup}
               />
             ) : (
               <>
@@ -923,6 +962,14 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
                     disabled={busy || !activeSectionDirty}
                   >
                     Reset Section
+                  </button>
+                  <button
+                    type="button"
+                    className="admin-toolbar-button"
+                    onClick={downloadBackup}
+                    disabled={busy}
+                  >
+                    Download Backup
                   </button>
                   <button
                     type="button"
