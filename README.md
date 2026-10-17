@@ -67,7 +67,7 @@ npm run preview   # Preview the production build locally
 
 The site starts with fallback content in `src/data/websiteContent.json`. When a valid `website_content` record with ID `main` is available, the public site loads that content from Supabase. The Control Desk requires a signed-in Supabase Auth session for the configured administrator, and database Row Level Security policies must authorize that user.
 
-The hosted Supabase content record has intentionally not been populated yet. Until it is initialized, the website uses its bundled fallback content. The current Control Desk save operation updates the existing `main` record; it does not create the initial record. After that record and the required policies are set up, edits saved in the Control Desk are stored in Supabase and become available to site visitors without a GitHub push or frontend redeploy. Visitors may need to reload an already-open page to fetch the latest content.
+The hosted Supabase content record may remain empty. Until it is initialized, the website uses its bundled fallback content. The first direct Control Desk edit followed by **Save All** creates or updates the `main` record; no fallback content is published automatically. After the access policies are set up, saved edits are available to site visitors without a GitHub push or frontend redeploy. Visitors may need to reload an already-open page to fetch the latest content.
 
 Media uploaded through the Control Desk is stored in the configured Supabase Storage bucket. Public URLs for uploaded assets are referenced by the saved website content.
 
@@ -88,6 +88,8 @@ Set these variables in `.env.local` for local use and in the hosting provider’
 The terminal phrase is only a concealed entry point, not authentication. Supabase Auth and database/storage policies are the actual authorization boundary. Values prefixed with `VITE_` are included in browser code. Never put a database password, Supabase secret key, or service-role key in a `VITE_` variable or in this repository. `CHAOS_ADMIN_PASSPHRASE` is only for the local development fallback and must not be configured on the public host.
 
 Configure the Supabase Auth Site URL and allowed redirect URLs to include the deployed site address. Review the project’s RLS and Storage policies before enabling live editing.
+
+Run [`supabase/website-access-policies.sql`](supabase/website-access-policies.sql) once in the Supabase SQL Editor before using the hosted Control Desk. It creates the needed public read and administrator-only write policies for `website_content.main` and the `website-assets` upload bucket. Do not loosen those policies or add a service-role key to the frontend.
 
 ## Deploy
 

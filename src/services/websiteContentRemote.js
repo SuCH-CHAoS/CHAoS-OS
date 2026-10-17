@@ -72,11 +72,13 @@ export async function saveRemoteWebsiteContent(content) {
 
   const { data, error } = await supabase
     .from(supabaseConfig.contentTable)
-    .update({
+    .upsert({
+      id: supabaseConfig.contentId,
       content,
       updated_at: new Date().toISOString()
+    }, {
+      onConflict: 'id'
     })
-    .eq('id', supabaseConfig.contentId)
     .select('content')
     .single()
 

@@ -711,11 +711,12 @@ function AboutEditor({
             hint="Upload a PDF or document (12 MB max), or paste its public URL."
           />
           <AssetInput
-            label="Profile Image"
+            label="Profile Image (PNG, JPG, WebP, or GIF)"
             value={about.profileImage ?? ''}
             onChange={(value) => updateAbout('profileImage', value || undefined)}
             folder="about"
-            hint={PUBLIC_ASSET_HINT}
+            accept="image/png,image/jpeg,image/webp,image/gif,.png,.jpg,.jpeg,.webp,.gif"
+            hint="Upload an image or animated GIF (12 MB max), or paste its public URL."
           />
         </div>
       </fieldset>
@@ -882,11 +883,8 @@ function ApplicationsProjectsEditor({
   const selectedProject = selectedCategory?.projects.find((project) => project.id === resolvedProjectId) ?? null
   const selectedProjectIndex = selectedCategory?.projects.findIndex((project) => project.id === resolvedProjectId) ?? -1
 
-  if (!selectedCategory || selectedCategoryIndex < 0) {
-    return <div className="admin-empty-panel">No application categories available.</div>
-  }
-
   const updateCategoryField = (field, value) => {
+    if (selectedCategoryIndex < 0) return
     onChange(setValueAtPath(content, ['applications', 'categories', selectedCategoryIndex, field], value))
   }
 
@@ -915,6 +913,8 @@ function ApplicationsProjectsEditor({
   }
 
   const addProject = () => {
+    if (!selectedCategory || selectedCategoryIndex < 0) return
+
     const existingIds = categories.flatMap((category) => category.projects.map((project) => project.id))
     const baseName = `New ${selectedCategory.label} Project`
     const nextId = ensureUniqueStringId(existingIds, baseName, 'project')
@@ -939,6 +939,38 @@ function ApplicationsProjectsEditor({
     ], nextProject))
     setSelectedProjectId(nextProject.id)
     onStatusChange?.(`${nextProject.name} added to ${selectedCategory.label}.`)
+  }
+
+  const addCategory = () => {
+    const nextId = ensureUniqueStringId(categories.map((category) => category.id), 'new-category', 'category')
+    const nextCategory = {
+      id: nextId,
+      label: 'New Category',
+      summary: '',
+      projects: []
+    }
+
+    onChange(appendArrayItemAtPath(content, ['applications', 'categories'], nextCategory))
+    setSelectedCategoryId(nextCategory.id)
+    setSelectedProjectId('')
+    onStatusChange?.(`${nextCategory.label} added.`)
+  }
+
+  const deleteCategory = () => {
+    if (!selectedCategory || selectedCategoryIndex < 0) return
+
+    if (
+      selectedCategory.projects.length > 0
+      && !window.confirm(`Delete ${selectedCategory.label} and its ${selectedCategory.projects.length} project(s)?`)
+    ) {
+      return
+    }
+
+    const remainingCategories = categories.filter((_, index) => index !== selectedCategoryIndex)
+    onChange(removeArrayItemAtPath(content, ['applications', 'categories'], selectedCategoryIndex))
+    setSelectedCategoryId(remainingCategories[0]?.id ?? '')
+    setSelectedProjectId('')
+    onStatusChange?.(`${selectedCategory.label} removed.`)
   }
 
   const duplicateProject = () => {
@@ -989,30 +1021,37 @@ function ApplicationsProjectsEditor({
         }))}
         selectedId={resolvedCategoryId}
         onSelect={setSelectedCategoryId}
+        actions={(
+          <>
+            <button type="button" className="admin-mini-button" onClick={addCategory}>Add Category</button>
+            <button type="button" className="admin-mini-button" onClick={deleteCategory} disabled={!selectedCategory}>Delete Category</button>
+          </>
+        )}
         secondaryTitle="Projects"
-        secondaryItems={selectedCategory.projects.map((project) => ({
+        secondaryItems={(selectedCategory?.projects ?? []).map((project) => ({
           id: project.id,
           title: project.name,
           meta: project.windowTitle
         }))}
         secondarySelectedId={resolvedProjectId}
         onSecondarySelect={setSelectedProjectId}
-        secondaryActions={(
+        secondaryActions={selectedCategory ? (
           <>
             <button type="button" className="admin-mini-button" onClick={addProject}>Add</button>
             <button type="button" className="admin-mini-button" onClick={duplicateProject} disabled={!selectedProject}>Duplicate</button>
             <button type="button" className="admin-mini-button" onClick={deleteProject} disabled={!selectedProject}>Delete</button>
           </>
-        )}
+        ) : null}
       />
 
       <div className="admin-structured-form">
         <div className="admin-pane-titlebar">
-          <span>{selectedProject ? selectedProject.name : selectedCategory.label}</span>
+          <span>{selectedProject ? selectedProject.name : (selectedCategory?.label ?? 'Applications')}</span>
           <span className="admin-pane-caption">Applications editor</span>
         </div>
 
         <div className="admin-structured-surface">
+          {selectedCategory ? (
           <div className="admin-form-stack">
             <fieldset className="admin-groupbox">
               <legend>Category</legend>
@@ -1027,7 +1066,7 @@ function ApplicationsProjectsEditor({
                   value={selectedCategory.id}
                   onChange={() => {}}
                   readOnly
-                  hint="Editable in raw JSON mode if you need to rename internal IDs."
+                  hint="Created automatically for each category."
                 />
               </div>
               <TextAreaInput
@@ -1152,6 +1191,9 @@ function ApplicationsProjectsEditor({
               <div className="admin-empty-panel">This category has no projects yet. Use Add to create one.</div>
             )}
           </div>
+          ) : (
+            <div className="admin-empty-panel">No application categories available. Use Add Category to create one.</div>
+          )}
         </div>
       </div>
     </div>
