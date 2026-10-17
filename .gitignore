@@ -10,6 +10,11 @@ lerna-debug.log*
 node_modules
 dist
 dist-ssr
+
+# Private local administration and reference files. Never commit these.
+scripts/restore-website-backup.cmd
+scripts/restore-website-backup.ps1
++/
 *.local
 .env*
 !.env.example
