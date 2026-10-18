@@ -690,23 +690,21 @@
                                                 "summary":  "Hybrid systems that combine multiple interfaces or utilities in one product surface.",
                                                 "projects":  [
                                                                  {
-                                                                     "id":  "command-shelf",
-                                                                     "name":  "Command Shelf",
-                                                                     "githubUrl":  "https://github.com/SuCH-CHAoS",
-                                                                     "description":  "A compact utility shelf for quick text transforms, clipboard actions, and repeatable developer shortcuts. The goal is to reduce context switching for small tasks that happen dozens of times a day.",
-                                                                     "githubLabel":  "Open GitHub profile",
-                                                                     "hotlineOpen":  "Opened multi-tool project: Command Shelf.",
+                                                                     "id":  "mt1",
+                                                                     "name":  "SYS CTRL",
+                                                                     "githubUrl":  "https://github.com/SuCH-CHAoS/SYS-CTRL",
+                                                                     "description":  "SYS CTRL is a Windows terminal control deck for routine system maintenance. It combines safe temporary-file cleanup, storage inspection, repair tools, application updates, and power controls in a single retro-styled console interface.",
+                                                                     "githubLabel":  "Open repository",
+                                                                     "hotlineOpen":  "Opened Multi-Tools project: SYS CTRL.",
                                                                      "screenshots":  [
 
                                                                                      ],
-                                                                     "windowTitle":  "Command Shelf",
+                                                                     "windowTitle":  "SYS CTRL",
                                                                      "technologies":  [
-                                                                                          "React",
-                                                                                          "Utility actions",
-                                                                                          "Keyboard shortcuts",
-                                                                                          "Clipboard APIs"
+                                                                                          "PowerShell",
+                                                                                          "Batchfile"
                                                                                       ],
-                                                                     "repositoryNote":  "The public repo for this utility shelf is still pending, so the profile link is used for now."
+                                                                     "repositoryNote":  "This is a published repository on the public GitHub account."
                                                                  }
                                                              ]
                                             }
