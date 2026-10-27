@@ -2,7 +2,7 @@
     "about":  {
                   "name":  "Mohamed Ashraf Eldemerdash",
                   "role":  "Cybersecurity Engineer",
-                  "cvPath":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/about/605f940a-aace-47f9-8eee-1415f15371f6-Mohamed-Eldemerdash-CV.pdf",
+    "cvPath":  "/website-assets/about/605f940a-aace-47f9-8eee-1415f15371f6-Mohamed-Eldemerdash-CV.pdf",
                   "status":  "Actively learning",
                   "whoIAm":  "I am a computer science student who enjoys understanding how systems work under the hood. I\u0027m especially interested in building applications that feel intentional, structured, and reliable rather than rushed or improvised.\n\nI like working across different layers of technology from application logic and user interfaces to networking concepts and security fundamentals and I\u0027m constantly experimenting with new tools and ideas through hands-on projects.",
                   "whatIDo":  [
@@ -36,7 +36,7 @@
                                            "value":  "Learning by building"
                                        }
                                    ],
-                  "profileImage":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/about/1fce564d-9343-4891-9732-e0b315b71920-Jorge-Camacho.gif"
+                  "profileImage":  "/website-assets/about/1fce564d-9343-4891-9732-e0b315b71920-Jorge-Camacho.gif"
               },
     "shell":  {
                   "projects":  [
@@ -628,28 +628,28 @@
                                       "href":  "https://github.com/SuCH-CHAoS",
                                       "label":  "GitHub",
                                       "iconKey":  "github",
-                                      "iconPath":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/socials/abcd6b31-d34a-4b04-8329-20ae554b3383-github.png"
+                                      "iconPath":  "/website-assets/socials/abcd6b31-d34a-4b04-8329-20ae554b3383-github.png"
                                   },
                                   {
                                       "id":  "linkedin",
                                       "href":  "https://www.linkedin.com/in/mo-eldemerdash/",
                                       "label":  "LinkedIn",
                                       "iconKey":  "linkedin",
-                                      "iconPath":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/socials/9e2a5f5b-9064-4034-8910-3093907c88fa-linkedin.png"
+                                      "iconPath":  "/website-assets/socials/9e2a5f5b-9064-4034-8910-3093907c88fa-linkedin.png"
                                   },
                                   {
                                       "id":  "insta",
                                       "href":  "https://www.instagram.com/such.cha0s/",
                                       "label":  "Instagram",
                                       "iconKey":  "insta",
-                                      "iconPath":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/socials/eb462191-309a-4b65-b006-e6b6a28ad083-instagram_pixel.png"
+                                      "iconPath":  "/website-assets/socials/eb462191-309a-4b65-b006-e6b6a28ad083-instagram_pixel.png"
                                   },
                                   {
                                       "id":  "email",
                                       "href":  "mailto:mo.eldemerdash.personal@gmail.com",
                                       "label":  "Email",
                                       "iconKey":  "email",
-                                      "iconPath":  "https://wjmeevhypddcnqfubkwd.supabase.co/storage/v1/object/public/website-assets/socials/87bf3f5d-0b9f-4767-9094-b806354107c5-gmail.png"
+                                      "iconPath":  "/website-assets/socials/87bf3f5d-0b9f-4767-9094-b806354107c5-gmail.png"
                                   }
                               ],
                     "title":  "MY SOCIALS",

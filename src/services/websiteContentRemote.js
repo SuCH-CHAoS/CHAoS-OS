@@ -1,4 +1,7 @@
-import { supabase, supabaseConfig, isSupabaseConfigured } from './supabaseClient'
+const CONTENT_API_PATH = '/api/content'
+const ADMIN_CONTENT_API_PATH = '/__chaos-admin/content'
+const ADMIN_ASSET_API_PATH = '/__chaos-admin/assets'
+const ADMIN_SESSION_API_PATH = '/__chaos-admin/session'
 
 function isPlainObject(value) {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value)
@@ -18,34 +21,43 @@ export function hasWebsiteContentShape(content) {
 
 export function getRemoteContentStatus() {
   return {
-    configured: isSupabaseConfigured,
-    table: supabaseConfig.contentTable,
-    id: supabaseConfig.contentId
+    configured: !import.meta.env.DEV,
+    provider: 'Cloudflare D1'
   }
 }
 
 export async function loadRemoteWebsiteContent() {
-  if (!supabase) {
+  if (import.meta.env.DEV) {
     return {
       ok: false,
-      reason: 'Supabase is not configured.'
+      reason: 'Cloudflare content service is only used by hosted builds.'
     }
   }
 
-  const { data, error } = await supabase
-    .from(supabaseConfig.contentTable)
-    .select('content, updated_at')
-    .eq('id', supabaseConfig.contentId)
-    .maybeSingle()
+  let response
 
-  if (error) {
+  try {
+    response = await fetch(CONTENT_API_PATH, {
+      headers: { Accept: 'application/json' },
+      credentials: 'same-origin'
+    })
+  } catch {
     return {
       ok: false,
-      reason: error.message
+      reason: 'Cloudflare content service is unavailable.'
     }
   }
 
-  if (!data || !hasWebsiteContentShape(data.content)) {
+  const payload = await response.json().catch(() => null)
+
+  if (!response.ok) {
+    return {
+      ok: false,
+      reason: payload?.error ?? 'Cloudflare content service is unavailable.'
+    }
+  }
+
+  if (!payload?.content || !hasWebsiteContentShape(payload.content)) {
     return {
       ok: false,
       reason: 'Remote content is empty or incomplete.'
@@ -54,48 +66,35 @@ export async function loadRemoteWebsiteContent() {
 
   return {
     ok: true,
-    content: data.content,
-    updatedAt: data.updated_at
+    content: payload.content,
+    updatedAt: payload.updatedAt
   }
 }
 
 export async function saveRemoteWebsiteContent(content) {
-  if (!supabase) {
-    throw new Error('Supabase is not configured.')
-  }
-
-  await requireAuthorizedAdminSession()
-
   if (!hasWebsiteContentShape(content)) {
     throw new Error('Website content is incomplete.')
   }
 
-  const { data, error } = await supabase
-    .from(supabaseConfig.contentTable)
-    .upsert({
-      id: supabaseConfig.contentId,
-      content,
-      updated_at: new Date().toISOString()
-    }, {
-      onConflict: 'id'
-    })
-    .select('content')
-    .single()
+  const response = await fetch(ADMIN_CONTENT_API_PATH, {
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify(content)
+  })
+  const payload = await response.json().catch(() => null)
 
-  if (error) {
-    throw new Error(error.message)
+  if (!response.ok || !hasWebsiteContentShape(payload?.content)) {
+    throw new Error(payload?.error ?? 'Content could not be saved.')
   }
 
-  return data.content
+  return payload.content
 }
 
 export async function uploadWebsiteAsset(file, folder = 'website') {
-  if (!supabase) {
-    throw new Error('Supabase is not configured.')
-  }
-
-  await requireAuthorizedAdminSession()
-
   if (!file) {
     throw new Error('Choose a file to upload.')
   }
@@ -104,83 +103,76 @@ export async function uploadWebsiteAsset(file, folder = 'website') {
     throw new Error('Files must be 12 MB or smaller.')
   }
 
-  const safeFolder = folder
-    .replace(/[^a-z0-9/_-]/gi, '-')
-    .replace(/\.+/g, '-')
-    .replace(/^\/+|\/+$/g, '') || 'website'
-  const safeName = file.name.replace(/[^a-z0-9._-]/gi, '-').replace(/-+/g, '-')
-  const objectPath = `${safeFolder}/${crypto.randomUUID()}-${safeName}`
-  const { data, error } = await supabase.storage
-    .from(supabaseConfig.assetBucket)
-    .upload(objectPath, file, {
-      cacheControl: '3600',
-      contentType: file.type || undefined,
-      upsert: false
-    })
+  const formData = new FormData()
+  formData.set('file', file)
+  formData.set('folder', folder)
+  const response = await fetch(ADMIN_ASSET_API_PATH, {
+    method: 'POST',
+    credentials: 'same-origin',
+    body: formData
+  })
+  const payload = await response.json().catch(() => null)
 
-  if (error) {
-    throw new Error(error.message)
+  if (!response.ok || !payload?.publicUrl) {
+    throw new Error(payload?.error ?? 'Asset upload failed.')
   }
 
-  const { data: publicUrl } = supabase.storage
-    .from(supabaseConfig.assetBucket)
-    .getPublicUrl(data.path)
-
-  return publicUrl.publicUrl
+  return payload.publicUrl
 }
 
-export async function getSupabaseSession() {
-  if (!supabase) {
+export async function getCloudflareSession() {
+  if (import.meta.env.DEV) {
     return null
   }
 
-  const { data } = await supabase.auth.getSession()
-  return data.session ?? null
+  const response = await fetch(ADMIN_SESSION_API_PATH, {
+    headers: { Accept: 'application/json' },
+    credentials: 'same-origin'
+  })
+
+  if (!response.ok) {
+    throw new Error('Admin session could not be verified.')
+  }
+
+  const payload = await response.json().catch(() => null)
+  return payload?.authenticated ? payload : null
 }
 
 export async function signInAdmin(email, password) {
-  if (!supabase) {
-    throw new Error('Supabase is not configured.')
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email: email.trim(),
-    password
+  const response = await fetch(ADMIN_SESSION_API_PATH, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    },
+    credentials: 'same-origin',
+    body: JSON.stringify({
+      email: email.trim(),
+      password
+    })
   })
+  const payload = await response.json().catch(() => null)
 
-  if (error) {
-    throw new Error(error.message)
+  if (!response.ok || !payload?.authenticated) {
+    throw new Error(payload?.error ?? 'Sign-in failed. Check your credentials and try again.')
   }
 
-  return data.session
+  return payload
 }
 
 export async function signOutAdmin() {
-  if (!supabase) return
-  await supabase.auth.signOut({ scope: 'local' })
+  if (import.meta.env.DEV) return
+
+  const response = await fetch(ADMIN_SESSION_API_PATH, {
+    method: 'DELETE',
+    credentials: 'same-origin'
+  })
+
+  if (!response.ok) {
+    throw new Error('Sign-out failed.')
+  }
 }
 
 export function isAllowedAdminSession(session) {
-  if (!session?.user || !session.access_token) return false
-
-  const expiresAt = Number(session.expires_at)
-  if (!Number.isFinite(expiresAt) || expiresAt * 1000 <= Date.now()) {
-    return false
-  }
-
-  if (!supabaseConfig.adminUserId) {
-    return false
-  }
-
-  return session.user.id === supabaseConfig.adminUserId
-}
-
-async function requireAuthorizedAdminSession() {
-  const session = await getSupabaseSession()
-
-  if (!isAllowedAdminSession(session)) {
-    throw new Error('Admin authentication is required.')
-  }
-
-  return session
+  return session?.authenticated === true
 }

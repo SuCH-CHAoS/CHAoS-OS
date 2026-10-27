@@ -10,8 +10,8 @@ import {
   createAdminRequestHeaders
 } from './admin/adminSession'
 import {
+  getCloudflareSession,
   getRemoteContentStatus,
-  getSupabaseSession,
   isAllowedAdminSession,
   loadRemoteWebsiteContent,
   saveRemoteWebsiteContent,
@@ -28,7 +28,7 @@ import {
 import { supportsStructuredSection } from './admin/structuredSections'
 
 const ADMIN_FILE_LABEL = 'src\\data\\websiteContent.json'
-const REMOTE_CONTENT_LABEL = 'Supabase website_content.main'
+const REMOTE_CONTENT_LABEL = 'Cloudflare D1 website_content.main'
 
 const ADMIN_SECTION_GROUPS = [
   {
@@ -291,7 +291,7 @@ function AdminHomePanel({
     <div className="admin-home-surface">
       <section className="admin-home-hero">
         <div>
-          <div className="admin-home-kicker">SUPABASE CONTROL PANEL</div>
+          <div className="admin-home-kicker">CLOUDFLARE CONTROL PANEL</div>
           <h2>Choose what you want to edit.</h2>
           <p>
             Start with a card below, change fields in the structured editor, then press Save All.
@@ -389,10 +389,10 @@ function AdminLoginPanel({
     <div className="admin-login-surface">
       <form className="admin-login-card" onSubmit={onSubmit} autoComplete="off">
         <div className="admin-home-kicker">PRIVATE CONTENT ACCESS</div>
-        <h2>Sign in to Supabase.</h2>
+        <h2>Sign in to Control Desk.</h2>
         <p>
-          The terminal phrase only opens this door. Supabase Auth and database policies decide
-          whether content can actually be edited.
+          The terminal phrase only opens this door. Your server-side credentials and signed
+          session decide whether content can actually be edited.
         </p>
 
         <label className="admin-field">
@@ -440,8 +440,8 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
   const [rawDrafts, setRawDrafts] = useState({})
   const [editorModes, setEditorModes] = useState({})
   const [status, setStatus] = useState(remoteStatus.configured
-    ? 'Connect Supabase to edit live content.'
-    : 'Supabase is not configured. Local dev fallback active.'
+    ? 'Sign in to edit live Cloudflare content.'
+    : 'Cloudflare functions run after deployment. Local dev fallback active.'
   )
   const [busy, setBusy] = useState(false)
   const [adminSession, setAdminSession] = useState(null)
@@ -484,14 +484,14 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
     setStatus(nextStatus)
   }, [])
 
-  const loadRemoteDraft = useCallback(async (successStatus = 'Supabase content loaded.') => {
+  const loadRemoteDraft = useCallback(async (successStatus = 'Cloudflare content loaded.') => {
     const result = await loadRemoteWebsiteContent()
 
     if (!result.ok) {
       const emptyRemote = result.reason === 'Remote content is empty or incomplete.'
       setStatus(emptyRemote
-        ? 'Supabase content is empty. Your local draft will stay local until you save an edit.'
-        : 'Supabase content could not be loaded. Your local draft will stay local.'
+        ? 'Cloudflare content is empty. Your local draft will stay local until you save an edit.'
+        : 'Cloudflare content could not be loaded. Your local draft will stay local.'
       )
       return false
     }
@@ -513,13 +513,13 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
       }
 
       try {
-        const session = await getSupabaseSession()
+        const session = await getCloudflareSession()
 
         if (cancelled) return
 
         if (isAllowedAdminSession(session)) {
           setAdminSession(session)
-          await loadRemoteDraft('Supabase session restored.')
+          await loadRemoteDraft('Cloudflare session restored.')
           return
         }
 
@@ -528,14 +528,14 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
           setAdminSession(null)
           setAuthEmail('')
           setAuthPassword('')
-          setStatus('Sign in to edit live Supabase content.')
+          setStatus('Sign in to edit live Cloudflare content.')
           return
         }
 
-        setStatus('Sign in to edit live Supabase content.')
+        setStatus('Sign in to edit live Cloudflare content.')
       } catch {
         if (!cancelled) {
-          setStatus('Unable to verify the Supabase session.')
+          setStatus('Unable to verify the Cloudflare session.')
         }
       }
     }
@@ -551,7 +551,7 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
     event.preventDefault()
     setBusy(true)
     setAuthError('')
-    setStatus('Checking Supabase credentials...')
+    setStatus('Checking credentials...')
 
     try {
       const nextSession = await signInAdmin(authEmail, authPassword)
@@ -563,7 +563,7 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
 
       setAdminSession(nextSession)
       setAuthPassword('')
-      await loadRemoteDraft('Supabase signed in. Live content ready.')
+      await loadRemoteDraft('Cloudflare signed in. Live content ready.')
       setHotlineMsg?.('Control desk authenticated.')
     } catch (error) {
       const message = error instanceof Error && error.message === 'This account is not authorized to edit this website.'
@@ -687,19 +687,19 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
   const reloadContent = async () => {
     if (remoteStatus.configured) {
       if (!canUseRemoteContent) {
-        setStatus('Reload blocked: Supabase sign-in required.')
-        setHotlineMsg?.('Control desk needs Supabase sign-in.')
+        setStatus('Reload blocked: Control Desk sign-in required.')
+        setHotlineMsg?.('Control desk needs sign-in.')
         return
       }
 
       setBusy(true)
-      setStatus('Loading latest Supabase content...')
+      setStatus('Loading latest Cloudflare content...')
 
       try {
-        await loadRemoteDraft('Supabase content refreshed.')
-        setHotlineMsg?.('Control desk refreshed from Supabase.')
+        await loadRemoteDraft('Cloudflare content refreshed.')
+        setHotlineMsg?.('Control desk refreshed from Cloudflare.')
       } catch {
-        setStatus('Supabase content could not be reloaded.')
+        setStatus('Cloudflare content could not be reloaded.')
         setHotlineMsg?.('Control desk reload failed.')
       } finally {
         setBusy(false)
@@ -775,13 +775,13 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
 
   const saveSection = async () => {
     if (remoteStatus.configured && !canUseRemoteContent) {
-      setStatus('Save blocked: Supabase sign-in required.')
-      setHotlineMsg?.('Control desk needs Supabase sign-in.')
+      setStatus('Save blocked: Control Desk sign-in required.')
+      setHotlineMsg?.('Control desk needs sign-in.')
       return
     }
 
     if (!remoteStatus.configured && (!import.meta.env.DEV || !adminToken)) {
-      setStatus('Save blocked: no Supabase connection or local admin session.')
+      setStatus('Save blocked: no Cloudflare connection or local admin session.')
       setHotlineMsg?.('Control desk save blocked.')
       return
     }
@@ -798,8 +798,8 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
         setDraftContent(savedRemoteContent)
         setRawDrafts({})
         updateWebsiteContent(savedRemoteContent)
-        setStatus('All pending content saved to Supabase.')
-        setHotlineMsg?.('Control desk saved to Supabase.')
+        setStatus('All pending content saved to Cloudflare.')
+        setHotlineMsg?.('Control desk saved to Cloudflare.')
         return
       }
 
@@ -822,7 +822,7 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
       setStatus('All pending content saved to disk.')
       setHotlineMsg?.('Control desk saved.')
     } catch {
-      setStatus('Content could not be saved. Confirm the admin session and Supabase policies.')
+      setStatus('Content could not be saved. Confirm the admin session and Cloudflare bindings.')
       setHotlineMsg?.('Control desk save failed.')
     } finally {
       setBusy(false)
@@ -838,7 +838,7 @@ function AdminDashboardWindow({ adminToken, setHotlineMsg, onClose }) {
         </div>
         <div className="admin-toolbar-field">{storageLabel}</div>
         <span className="admin-toolbar-badge">
-          {canUseRemoteContent ? 'SUPABASE' : remoteStatus.configured ? 'SIGN IN' : 'DEV FALLBACK'}
+          {canUseRemoteContent ? 'CLOUDFLARE' : remoteStatus.configured ? 'SIGN IN' : 'DEV FALLBACK'}
         </span>
         {canUseRemoteContent ? (
           <button

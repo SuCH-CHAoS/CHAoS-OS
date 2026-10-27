@@ -76,7 +76,7 @@ function AssetInput({
   onChange,
   hint = PUBLIC_ASSET_HINT,
   folder = 'website',
-  accept = 'image/*',
+  accept = 'image/png,image/jpeg,image/gif,image/webp,image/avif,image/x-icon',
   allowDocuments = false
 }) {
   const fileInputRef = useRef(null)

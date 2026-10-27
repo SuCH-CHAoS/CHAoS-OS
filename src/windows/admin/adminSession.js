@@ -66,7 +66,7 @@ export async function requestLocalAdminSession(passphrase) {
   if (passphrase === CLIENT_UNLOCK_PHRASE) {
     return {
       ok: true,
-      token: 'supabase-control-desk'
+      token: 'cloudflare-control-desk'
     }
   }
 

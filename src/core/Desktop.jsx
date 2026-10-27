@@ -623,7 +623,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       ok: true,
       lines: [
         'CHAOS CONTROL DESK ONLINE.',
-        'Supabase-backed content editor opened.'
+        'Cloud-backed content editor opened.'
       ],
       phoneMsg: 'CHAoS Control Desk unlocked.'
     }

@@ -33,7 +33,8 @@ Some of these are easier to find than others. The private administrator entry de
 - React 19
 - Vite 7
 - JavaScript and CSS
-- Supabase Auth, Postgres, and Storage for hosted content editing
+- Cloudflare Pages Functions and D1 for hosted content editing
+- Cloudflare R2 for Control Desk uploads
 - Cloudflare Pages for the public frontend
 
 ## Run Locally
@@ -52,7 +53,7 @@ For frontend-only work, the site can run with its bundled fallback content:
 npm run dev
 ```
 
-Create a `.env.local` file from `.env.example` to connect a local build to Supabase. Keep `.env.local` private and out of Git.
+Create a `.env.local` file from `.env.example` to enable the local Control Desk fallback. Keep `.env.local` private and out of Git.
 
 Useful commands:
 
@@ -65,37 +66,30 @@ npm run preview   # Preview the production build locally
 
 ## Content Editing
 
-The site starts with fallback content in `src/data/websiteContent.json`. When a valid `website_content` record with ID `main` is available, the public site loads that content from Supabase. The Control Desk requires a signed-in Supabase Auth session for the configured administrator, and database Row Level Security policies must authorize that user.
+The site starts with fallback content in `src/data/websiteContent.json`. When Cloudflare D1 contains a valid `website_content` record with ID `main`, the public site loads that record instead. An empty D1 database is valid: the fallback is never automatically published. Make a direct Control Desk edit and press **Save All** when you are ready to create the first live record.
 
-The hosted Supabase content record may remain empty. Until it is initialized, the website uses its bundled fallback content. The first direct Control Desk edit followed by **Save All** creates or updates the `main` record; no fallback content is published automatically. After the access policies are set up, saved edits are available to site visitors without a GitHub push or frontend redeploy. Visitors may need to reload an already-open page to fetch the latest content.
+The terminal phrase is a concealed entry point only. Control Desk writes require a server-side email/password check and a short-lived signed `HttpOnly`, `Secure`, `SameSite=Strict` cookie. The browser never receives the administrator password or session-signing secret. Closing the dashboard clears the session.
 
-Media uploaded through the Control Desk is stored in the configured Supabase Storage bucket. Public URLs for uploaded assets are referenced by the saved website content.
+Media uploaded through Control Desk is stored in Cloudflare R2 and served from `/content-assets/`. The bundled public files under `public/website-assets/` are the preserved fallback media and do not require R2.
 
 Use **Download Backup** in the Control Desk whenever you want a copy of the current content. It downloads a complete JSON snapshot of the current draft, including unsaved field edits. Keep downloaded backups in a safe location; the website does not run a background local-sync task or automatically modify the fallback file.
 
-## Supabase Configuration
+## Cloudflare Setup
 
-Set these variables in `.env.local` for local use and in the hosting provider’s build settings for production:
+Create these resources in the same Cloudflare account as the Pages project:
 
-| Variable | Purpose |
-| --- | --- |
-| `VITE_SUPABASE_URL` | Supabase project URL, such as `https://your-project.supabase.co` |
-| `VITE_SUPABASE_ANON_KEY` | Browser-safe anon/publishable key, used only with correct RLS policies |
-| `VITE_SUPABASE_ADMIN_USER_ID` | UUID of the one Supabase Auth user permitted by the application |
-| `VITE_CHAOS_ADMIN_UNLOCK_PHRASE` | Phrase that opens the hidden Control Desk entry point |
-| `VITE_SUPABASE_CONTENT_TABLE` | Content table name; defaults to `website_content` |
-| `VITE_SUPABASE_CONTENT_ID` | Content record ID; defaults to `main` |
-| `VITE_SUPABASE_ASSET_BUCKET` | Storage bucket name; defaults to `website-assets` |
+1. Create a D1 database, then run [`migrations/0001_create_website_content.sql`](migrations/0001_create_website_content.sql) in its SQL console. Do not add a content row manually unless you intentionally want to publish content.
+2. Create an R2 bucket for future Control Desk uploads.
+3. In **Workers & Pages > CHAoS OS > Settings > Bindings**, add the D1 database as `CHAOS_CONTENT_DB` and the R2 bucket as `CHAOS_ASSETS` for Production. If you later use preview deployments, create separate preview resources instead of connecting previews to live content or uploads.
+4. In **Settings > Variables and Secrets**, add encrypted secrets named `CHAOS_ADMIN_EMAIL`, `CHAOS_ADMIN_PASSWORD`, and `CHAOS_ADMIN_SESSION_SECRET`. Use a new, strong password. Generate the session secret with `node -e "console.log(require('crypto').randomBytes(32).toString('base64url'))"` and do not reuse it as a password.
+5. Add `VITE_CHAOS_ADMIN_UNLOCK_PHRASE` as a build variable. This phrase is intentionally browser-visible and only opens the hidden Control Desk entry; it is not the authorization boundary.
+6. In **Settings > Runtime**, set Functions to fail closed. The site's normal static files remain available because only API and upload paths invoke Functions.
 
-The terminal phrase is only a concealed entry point, not authentication. Supabase Auth and database/storage policies are the actual authorization boundary. Values prefixed with `VITE_` are included in browser code. Never put a database password, Supabase secret key, or service-role key in a `VITE_` variable or in this repository. `CHAOS_ADMIN_PASSPHRASE` is only for the local development fallback and must not be configured on the public host.
-
-Configure the Supabase Auth Site URL and allowed redirect URLs to include the deployed site address. Review the project’s RLS and Storage policies before enabling live editing.
-
-Run [`supabase/website-access-policies.sql`](supabase/website-access-policies.sql) once in the Supabase SQL Editor before using the hosted Control Desk. It creates the needed public read and administrator-only write policies for `website_content.main` and the `website-assets` upload bucket. Do not loosen those policies or add a service-role key to the frontend.
+Never put the three `CHAOS_ADMIN_*` secrets in `.env.local`, a `VITE_` variable, GitHub, or any client-side code. Redeploy after adding bindings or secrets. Regular Control Desk content edits then update D1 immediately without a GitHub push or frontend redeploy.
 
 ## Deploy
 
-The public frontend is hosted on Cloudflare Pages and the backend services are provided by Supabase; a VPS is not required.
+The public frontend and backend both run on Cloudflare Pages; a VPS is not required.
 
 For a GitHub-connected Cloudflare Pages project, use:
 
@@ -104,7 +98,7 @@ For a GitHub-connected Cloudflare Pages project, use:
 - Build output directory: `dist`
 - Root directory: repository root (leave the field blank)
 
-Add the Supabase variables above to the Cloudflare Pages build environment. Since Vite embeds `VITE_` variables during the build, deploy a new build after changing those settings. Ordinary content edits saved to Supabase do not require a redeploy.
+Add only the unlock phrase build variable above. Bindings and secrets are runtime configuration. Since Vite embeds `VITE_` variables during the build, deploy a new build after changing the unlock phrase. Ordinary content edits saved to D1 do not require a redeploy.
 
 ## Project Layout
 
@@ -113,10 +107,13 @@ src/
   core/       App shell, desktop, boot flow, window management, and routing
   data/       Fallback website content
   modes/      Full-screen experiences, including Arcade
-  services/   Supabase client, content access, and admin helpers
+  services/   Content API access and admin helpers
   styles/     Shared and component-specific styles
   windows/    Desktop windows, Applications Explorer, Shell, and Control Desk
 public/       Static images, icons, CV, and other public assets
+functions/    Cloudflare Pages API, authentication, and asset handlers
+cloudflare/   Shared server-side authentication helpers
+migrations/   D1 schema files
 ```
 
 ## Ownership and Third-Party Software
