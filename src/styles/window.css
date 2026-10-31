@@ -18,8 +18,8 @@
   z-index: 10;
   overflow: hidden;
   translate: 0 0;
-  transform-origin: top left;
-  animation: win98WindowOpen 180ms steps(4, end) both;
+  transform-origin: center;
+  animation: crtWindowPowerOn 220ms steps(5, end) both;
 }
 
 .win98-window.active {
@@ -44,7 +44,7 @@
 }
 
 .win98-window.is-closing {
-  animation: win98WindowClose 140ms steps(3, end) forwards;
+  animation: crtWindowPowerOff 220ms steps(5, end) forwards;
 }
 
 /* =========================
@@ -170,22 +170,31 @@ body.window-drag-active * {
   scroll-padding-bottom: var(--hotline-safe-block);
 }
 
-@keyframes win98WindowOpen {
+@keyframes crtWindowPowerOn {
   0% {
-    clip-path: inset(0 94% 88% 0);
-    transform: scale(0.18, 0.12);
+    clip-path: inset(49% 48% 49% 48%);
+    transform: scale(0.12, 0.03);
+    filter: brightness(2.1) contrast(1.35);
   }
-  33% {
-    clip-path: inset(0 0 88% 0);
-    transform: scale(1, 0.12);
+  20% {
+    clip-path: inset(48% 0 48% 0);
+    transform: scale(1, 0.04);
+    filter: brightness(2.5) contrast(1.5);
   }
-  66% {
-    clip-path: inset(0 0 42% 0);
-    transform: scale(1, 0.58);
+  48% {
+    clip-path: inset(38% 0 38% 0);
+    transform: scale(1, 0.24);
+    filter: brightness(1.65) contrast(1.2);
+  }
+  76% {
+    clip-path: inset(12% 0 12% 0);
+    transform: scale(1, 0.78);
+    filter: brightness(1.2);
   }
   100% {
     clip-path: inset(0 0 0 0);
     transform: scale(1);
+    filter: none;
   }
 }
 
@@ -204,18 +213,26 @@ body.window-drag-active * {
   }
 }
 
-@keyframes win98WindowClose {
+@keyframes crtWindowPowerOff {
   0% {
     clip-path: inset(0 0 0 0);
-    transform: translate(0, 0);
+    transform: scale(1);
+    filter: none;
   }
-  42% {
-    clip-path: inset(0 0 0 58%);
-    transform: translate(2px, 0);
+  32% {
+    clip-path: inset(20% 0 20% 0);
+    transform: scale(1, 0.58);
+    filter: brightness(1.25) contrast(1.15);
+  }
+  62% {
+    clip-path: inset(47% 0 47% 0);
+    transform: scale(1, 0.05);
+    filter: brightness(2.4) contrast(1.5);
   }
   100% {
-    clip-path: inset(0 0 0 100%);
-    transform: translate(-2px, 1px);
+    clip-path: inset(49% 48% 49% 48%);
+    transform: scale(0.12, 0.03);
+    filter: brightness(2.7) contrast(1.6);
   }
 }
 

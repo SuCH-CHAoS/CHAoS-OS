@@ -1,6 +1,6 @@
 ﻿import { useCallback, useEffect, useState, useRef } from 'react'
 import '../styles/desktop.css'
-import Window from './Window'
+import Window, { WINDOW_CLOSE_REQUEST_EVENT } from './Window'
 
 
 // WINDOWS
@@ -39,6 +39,7 @@ const desktopIconAssetMap = {
 const DEFAULT_HOTLINE_LOCK = 4000
 const ACTION_HOTLINE_LOCK = 6500
 const DEFAULT_TASKBAR_HEIGHT = 36
+const ADMIN_DASHBOARD_EXIT_ANIMATION_MS = 220
 const MODE_DISPLAY_NAMES = {
   arcade: 'ARCADE'
 }
@@ -192,6 +193,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
   const [billAnchor, setBillAnchor] = useState({ left: 0, bottom: DEFAULT_TASKBAR_HEIGHT })
   const [adminWindowComponent, setAdminWindowComponent] = useState(null)
   const [adminDashboardOpen, setAdminDashboardOpen] = useState(false)
+  const [adminDashboardPhase, setAdminDashboardPhase] = useState('idle')
   const [adminSessionToken, setAdminSessionToken] = useState('')
 
   const [, setContentVersion] = useState(0)
@@ -213,6 +215,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
   const billClickResetRef = useRef(null)
   const billTimerRef = useRef(null)
   const billHideTimerRef = useRef(null)
+  const adminDashboardCloseTimerRef = useRef(null)
   const securityClickRef = useRef(0)
   const konamiRef = useRef([])
   const lateNightTriggered = useRef(false)
@@ -309,6 +312,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       clearTimeout(billClickResetRef.current)
       clearTimeout(billTimerRef.current)
       clearTimeout(billHideTimerRef.current)
+      clearTimeout(adminDashboardCloseTimerRef.current)
     }
   }, [])
 
@@ -616,6 +620,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
     }
 
     setAdminSessionToken(sessionResult.token)
+    setAdminDashboardPhase('opening')
     setAdminDashboardOpen(true)
     setActiveWindow(null)
 
@@ -628,6 +633,31 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       phoneMsg: 'CHAoS Control Desk unlocked.'
     }
   }
+
+  const closeAdminDashboard = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setAdminDashboardOpen(false)
+      setAdminDashboardPhase('idle')
+      setAdminSessionToken('')
+      speakAction('Control desk closed.')
+      return
+    }
+
+    setAdminDashboardPhase('closing')
+    clearTimeout(adminDashboardCloseTimerRef.current)
+    adminDashboardCloseTimerRef.current = setTimeout(() => {
+      setAdminDashboardOpen(false)
+      setAdminDashboardPhase('idle')
+      setAdminSessionToken('')
+      speakAction('Control desk closed.')
+    }, ADMIN_DASHBOARD_EXIT_ANIMATION_MS)
+  }
+
+  const requestWindowClose = useCallback((windowId) => {
+    window.dispatchEvent(new CustomEvent(WINDOW_CLOSE_REQUEST_EVENT, {
+      detail: { windowId }
+    }))
+  }, [])
 
   const handleIconOpen = (icon) => {
     if (icon.kind === 'mode') {
@@ -651,7 +681,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       return (
         <ShellTerminalWindow
           active={activeWindow === window.id}
-          onClose={() => closeWindow(window.id, window.title)}
+          onClose={() => requestWindowClose(window.id)}
           onOpenProjectWindow={openShellProjectWindow}
           onPrivateCommand={openAdminDashboard}
           setHotlineMsg={speakAction}
@@ -745,6 +775,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       {windows.map(win => (
         <Window
           key={win.id}
+          windowId={win.id}
           title={win.title}
           active={activeWindow === win.id}
           minimized={win.minimized}
@@ -760,7 +791,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
       ))}
 
       {adminDashboardOpen && adminWindowComponent ? (
-        <div className="admin-fullscreen-overlay">
+        <div className={`admin-fullscreen-overlay is-${adminDashboardPhase}`}>
           {(() => {
             const AdminDashboardWindow = adminWindowComponent
 
@@ -768,11 +799,7 @@ function Desktop({ onLaunchMode, setHotlineMsg, setIdleHotlineMsg }) {
               <AdminDashboardWindow
                 adminToken={adminSessionToken}
                 setHotlineMsg={speakAction}
-                onClose={() => {
-                  setAdminDashboardOpen(false)
-                  setAdminSessionToken('')
-                  speakAction('Control desk closed.')
-                }}
+                onClose={closeAdminDashboard}
               />
             )
           })()}

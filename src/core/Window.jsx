@@ -1,10 +1,12 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import '../styles/window.css'
 
 const FALLBACK_POSITION = { top: 80, left: 120 }
 const DESKTOP_DRAG_BREAKPOINT = 1024
 const DEFAULT_TASKBAR_HEIGHT = 36
-const WINDOW_EXIT_ANIMATION_MS = 160
+const WINDOW_EXIT_ANIMATION_MS = 220
+
+export const WINDOW_CLOSE_REQUEST_EVENT = 'chaos-window-close-request'
 
 function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max)
@@ -49,6 +51,7 @@ function Window({
   children,
   active,
   minimized,
+  windowId,
   defaultPosition,
   windowClassName,
   contentClassName,
@@ -66,6 +69,7 @@ function Window({
   const onCloseRef = useRef(onClose)
   const onMinimizeRef = useRef(onMinimize)
   const exitTimerRef = useRef(null)
+  const requestCloseRef = useRef(null)
 
   useEffect(() => {
     onFocusRef.current = onFocus
@@ -235,7 +239,7 @@ function Window({
     return () => window.removeEventListener('resize', handleResize)
   }, [minimized])
 
-  const runWindowAction = (nextPhase, action) => {
+  const runWindowAction = useCallback((nextPhase, action) => {
     if (phase !== 'idle') return
 
     window.clearTimeout(exitTimerRef.current)
@@ -250,15 +254,29 @@ function Window({
       setPhase('idle')
       action?.()
     }, WINDOW_EXIT_ANIMATION_MS)
-  }
+  }, [phase])
 
-  const handleMinimize = () => {
+  const handleMinimize = useCallback(() => {
     runWindowAction('minimizing', () => onMinimizeRef.current?.())
-  }
+  }, [runWindowAction])
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     runWindowAction('closing', () => onCloseRef.current?.())
-  }
+  }, [runWindowAction])
+
+  useEffect(() => {
+    requestCloseRef.current = handleClose
+  }, [handleClose])
+
+  useEffect(() => {
+    const handleCloseRequest = (event) => {
+      if (event.detail?.windowId !== windowId) return
+      requestCloseRef.current?.()
+    }
+
+    window.addEventListener(WINDOW_CLOSE_REQUEST_EVENT, handleCloseRequest)
+    return () => window.removeEventListener(WINDOW_CLOSE_REQUEST_EVENT, handleCloseRequest)
+  }, [windowId])
 
   if (minimized) return null
 

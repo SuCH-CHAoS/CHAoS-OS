@@ -28,9 +28,73 @@
 .admin-fullscreen-overlay .admin-dashboard-shell {
   max-width: 1480px;
   margin: 0 auto;
+  transform-origin: center;
   box-shadow:
     0 0 0 1px #000000,
     6px 6px 0 rgba(0, 0, 0, 0.34);
+}
+
+.admin-fullscreen-overlay.is-opening .admin-dashboard-shell {
+  animation: crtDashboardPowerOn 220ms steps(5, end) both;
+}
+
+.admin-fullscreen-overlay.is-closing {
+  pointer-events: none;
+}
+
+.admin-fullscreen-overlay.is-closing .admin-dashboard-shell {
+  animation: crtDashboardPowerOff 220ms steps(5, end) forwards;
+}
+
+@keyframes crtDashboardPowerOn {
+  0% {
+    clip-path: inset(49% 48% 49% 48%);
+    transform: scale(0.12, 0.03);
+    filter: brightness(2.1) contrast(1.35);
+  }
+  20% {
+    clip-path: inset(48% 0 48% 0);
+    transform: scale(1, 0.04);
+    filter: brightness(2.5) contrast(1.5);
+  }
+  48% {
+    clip-path: inset(38% 0 38% 0);
+    transform: scale(1, 0.24);
+    filter: brightness(1.65) contrast(1.2);
+  }
+  76% {
+    clip-path: inset(12% 0 12% 0);
+    transform: scale(1, 0.78);
+    filter: brightness(1.2);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+    filter: none;
+  }
+}
+
+@keyframes crtDashboardPowerOff {
+  0% {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+    filter: none;
+  }
+  32% {
+    clip-path: inset(20% 0 20% 0);
+    transform: scale(1, 0.58);
+    filter: brightness(1.25) contrast(1.15);
+  }
+  62% {
+    clip-path: inset(47% 0 47% 0);
+    transform: scale(1, 0.05);
+    filter: brightness(2.4) contrast(1.5);
+  }
+  100% {
+    clip-path: inset(49% 48% 49% 48%);
+    transform: scale(0.12, 0.03);
+    filter: brightness(2.7) contrast(1.6);
+  }
 }
 
 .admin-dashboard-shell {
@@ -947,5 +1011,15 @@
   .admin-field-textarea {
     font-size: 12px;
     padding: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-fullscreen-overlay.is-opening .admin-dashboard-shell,
+  .admin-fullscreen-overlay.is-closing .admin-dashboard-shell {
+    animation: none;
+    clip-path: none;
+    transform: none;
+    filter: none;
   }
 }
